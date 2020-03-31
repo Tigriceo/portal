@@ -1,0 +1,113 @@
+{% extends 'home.html' %}
+{% load static %}
+{% load padegi_tags %}
+
+
+{% block left %}
+<div class="bg-all">
+	<div class="const">
+		<div class="sidebar">
+			<div class="city-select">
+				<select data-placeholder="Выберите город">
+					<option value=""></option>
+					<option value="Все города">Все города</option>
+					<option value="Москва">Москва</option>
+					<option value="Санкт-Петербург">Санкт-Петербург</option>
+					<option value="Владивосток">Владивосток</option>
+					<option value="Тула">Тула</option>
+					<option value="Тверь">Тверь</option>
+					<option value="Якутск">Якутск</option>
+					<option value="Новосибирск">Новосибирск</option>
+					<option value="Орел">Орел</option>
+					<option value="Курск">Курск</option>
+					<option value="Воронеж">Воронеж</option>
+					<option value="Иваново">Иваново</option>
+	  			</select>
+				<div class="city-selected-block">Вы выбрали город: <span id="city-selected">Москва</span></div>
+			</div>
+
+			<div class="cat-menu-block">
+				<span class="cat-menu-title">Категории</span>
+				<ul>
+					<li><a href="">Товары для животных <span>(13)</span></a></li>
+					<li><a href="">Товары для животных <span>(13)</span></a></li>
+					<li class="cat-active"><a href="">Товары для животных <span>(13)</span></a></li>
+					<li><a href="">Товары для животных <span>(13)</span></a></li>
+					<li><a href="">Товары для дома <span>(13)</span></a></li>
+					<li><a href="">Товары для животных <span>(13)</span></a></li>
+					<li><a href="">Товары для животных <span>(13)</span></a></li>
+					<li><a href="">Товары для животных и дома и собак <span>(13)</span></a></li>
+				</ul>
+			</div>
+		</div>
+		{% endblock left %}
+
+		{% block content %}
+		<div class="content-r">
+			<div class="bread-cat">
+				<span>электроника</span> <span>портативная</span> <span class="bread-cat-active">плееры</span>
+			</div>
+			<div class="tovars-flex">
+				<div class="tovar-block tovar-add">
+					<a href="">
+						<div class="tovar-img-add">
+							<img src="{% static 'img/add-photo.svg' %}" alt=""><br>
+							<div>Добавить фото</div>
+						</div>
+					</a>
+					{% if user.is_authenticated %}
+					<a href="{% url 'add_order' %}">
+					<form action="">
+						<input type="text" placeholder="{{search}}">
+						<input type="button" value="Добавить запрос">
+					</form>
+					</a>
+					{% else %}
+					<a href="javascript:;" onclick="$('#regform').arcticmodal()">
+					<form action="">
+						<input type="text" placeholder="{{search}}">
+						<input type="button" value="Добавить запрос">
+					</form>
+					</a>
+					{% endif %}
+				</div>
+
+				{% for advert in order_list %}
+					{% if advert.date_validity|delta == 'quickly' %}
+					<div class="tovar-block tovar-hot">
+					{% else %}
+					<div class="tovar-block">
+					{% endif %}
+						<div class="tovar-city">Санкт-Петербург</div>
+						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});"></div>
+						<div class="tovar-info">
+							<h2>{{ advert.name }}</h2>
+							Короткое описание товара Короткое описание
+							товара Короткое описание товара Короткое
+							описание товара Короткое описание товара
+							Короткое описание товара
+						</div>
+						<div class="tovar-foot">
+							<div class="tovar-price">
+								желаемая стоимость<br>
+								<span>{{ advert.price_min }} - {{ advert.price_max }}руб</span>
+							</div>
+							<div class="tovar-offer">
+								откликов ({{ advert.offers.count }}) <br>
+
+								{% if advert.date_validity|delta == 'quickly' %}
+								<span class="tovar-actual">Срочно</span>
+								{% else %}
+								<span class="tovar-actual">Актуально {{ advert.date_validity|delta }}</span>
+								{% endif %}
+							</div>
+						</div>
+						<a href="{{ advert.get_absolute_url }}" class="discuss">Сделать предложение</a>
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends 'home_profile.html' %}
+{% load static %}
+{% load padegi_tags %}
+
+
+
+		{% block content %}
+		<div class="content-r">
+			<h1>Мои запросы</h1>
+			<div class="tovars-flex">
+				{% for advert in order_list %}
+					<div class="tovar-block">
+						<div class="tovar-city">Москва</div><br>
+						<a href="" class="tovar-link"></a>
+						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});">
+							{% for offer in advert.offers.all %}
+                                {% if offer.status != 'reject' %}
+                                    <div class="tovar-mypredl-label">
+                                        {{ a.status }}Ваша заявка интерсна продавцу <a href="{% url 'offer_list' advert.id %}">начать чат</a>
+                                    </div>
+                                {% endif %}
+							{% endfor %}
+						</div>
+						<div class="tovar-info">
+							<h2>{{ advert.name }}</h2>
+							{{ advert.description }}<br>
+							Категория
+							{% for categories in advert.category.all  %}
+							{{ categories.name }}
+							{% endfor %}
+						</div>
+						<div class="tovar-foot">
+							<div class="tovar-price">
+								желаемая стоимость<br>
+								<span>{{ advert.price_min }} - {{ advert.price_max }}руб</span>
+							</div>
+							<div class="tovar-offer">
+								откликов ({{ advert.offers.count }}) <br>
+								<span class="tovar-actual">Актуально  {{ advert.date_validity|delta }}</span>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
+
+

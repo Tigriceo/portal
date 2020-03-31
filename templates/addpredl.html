@@ -1,0 +1,87 @@
+{% extends 'home.html' %}
+{% load static %}
+{% load padegi_tags %}
+
+{% block left %}
+{% endblock left %}
+
+
+{% block content %}
+<div class="bg-all">
+	<div class="const addpredl">
+		<div class="addpredl-l">
+            <a href="/" class="back-link">На главную</a>
+			<div class="tovar-block">
+				<div class="tovar-img" style="background-image: url({{ order.photo.url }});"></div>
+				<div class="tovar-info">
+					<h2>{{ order.name }}</h2>
+					{{ order.description }}
+				</div>
+				<div class="tovar-foot">
+					<div class="tovar-price">
+						желаемая стоимость<br>
+						<span>{{ order.price_min }} - {{ order.price_max }}руб</span>
+					</div>
+					<div class="tovar-offer">
+						откликов ({{ order.offers.count }}) <br>
+                        {% if order.date_validity|delta == 'quickly' %}
+                            <span class="tovar-actual">Срочно</span>
+                        {% else %}
+						    <span class="tovar-actual">Актуально {{ order.date_validity|delta }}</span>
+                        {% endif %}
+					</div>
+				</div>
+				<div class="tovar-dopinfo">Нужна доставка в город: <span>Москва</span></div>
+				<div class="tovar-dopinfo">Желаемый способ оплаты: <span>{{ order.get_payment_method_display }}</span></div>
+				<div class="tovar-dopinfo">Принимать предложения от магазинов: <span>Разрешено</span></div>
+				<div class="tovar-dopinfo">Принимать предложения из других регионов: <span>Разрешено</span></div>
+				<a href="#" class="discuss">Пожаловаться на объявление</a>
+			</div>
+		</div>
+
+        <div class="addpredl-r">
+            <h1>Сделать предложение</h1>
+            <form action="{% url 'order' order.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <a href="#" class="addpage-img" style="background-image:none;">
+                    <img src="{% static 'img/add-photo-blue.svg' %}" alt=""><br>
+                    <div>Добавить фото</div>
+                    <input type="file" name="photo">
+                </a>
+                <label>Заголовок предложения</label>
+                <input type="text" placeholder="Заголовок предложения не более 50 символов" name="name">
+                <a href="javascript:;" onclick="$('#instr-1').arcticmodal()" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
+
+                <label>Описание предложения</label>
+                <textarea name="description" placeholder="Описание характеристик (дополнительная информация)"></textarea>
+                <a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
+
+                <div class="addform-sep"></div>
+                <label>Укажите стоимость в рублях</label>
+                <div class="addform-price">
+                    <input type="number" value="0" name="price_min">
+                </div>
+                <a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
+                <input type="submit" value="Сделать предложение">
+            </form>
+        </div>
+	</div>
+</div>
+
+<div style="display: none;">
+    <div class="box-modal" id="instr-1">
+        <div class="box-modal_close arcticmodal-close"></div>
+
+        <div class="modal-title">Как заполнить заголовок объявления</div>
+        Информация по заполнению... Информация по заполнению... Информация по заполнению... Информация по заполнению... Информация по заполнению... Информация по заполнению... Информация по заполнению...
+
+    </div>
+</div>
+{% endblock content %}
+
+
+
+
+
+
+

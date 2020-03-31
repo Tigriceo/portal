@@ -1,0 +1,110 @@
+{% extends 'home_profile.html' %}
+{% load static %}
+{% load padegi_tags %}
+
+
+			{% block content %}
+			<div class="content-r">
+
+				<h1>Мои предложения</h1>
+
+				<div class="tovars-flex">
+
+					<div class="tovar-block tovar-zapros">
+						<div class="tovar-city">Москва</div>
+						<div class="tovar-img" style="background-image: url({{ offer.order.photo.url }});">
+						<div class="tovar-mypredl-label tovar-zapros-label">
+							запрос покупателя
+						</div>
+						</div>
+						<div class="tovar-info">
+							<h2>{{offer.order.name}}</h2>
+							{{offer.order.description}}
+						</div>
+						<div class="tovar-foot">
+							<div class="tovar-price">
+								желаемая стоимость<br>
+								<span>{{offer.order.price_min}} - {{offer.order.price_max}}руб</span>
+							</div>
+							<div class="tovar-offer">
+								{% now "Y-m-d" as today_date %}
+								{% if offer.order.date_validity|date:"Y-m-d" <= today_date %}
+								<span class="tovar-actual">Срочно</span>
+								{% else %}
+								<span class="tovar-actual">Актуально {{ offer.order.date_validity|delta }}</span>
+								{% endif %}
+							</div>
+						</div>
+							
+					</div>
+
+
+					<div class="tovar-block tovar-mypredl">
+						<div class="tovar-city">Москва</div>
+						<div class="tovar-img" style="background-image: url({{ offer.photo.url }});">
+						<div class="tovar-mypredl-label">
+							ваше предложение
+						</div>
+						</div>
+						<div class="tovar-info">
+							<h2>{{offer.name}}</h2>
+							{{offer.description}}
+						</div>
+						<div class="tovar-foot">
+							<div class="tovar-price">
+								указанная стоимость<br>
+								<span>{{offer.price_min}}руб</span>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+
+				<div class="chat-block">
+					<a class="chat-close" href="">Закрыть диалог с покупателем</a>
+					<div class="chat-header">
+						<div class="chat-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
+						<div class="chat-info">
+							<div class="chat-title">{{offer.name}}</div>
+							<div class="chat-price">Указанная стоимость <span>{{offer.price_min}}руб</span></div>
+						</div>
+					</div>
+					<div class="chat-content">
+						<div class="seller-msg">
+							<div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
+							<div class="msg-text">Предлагаю похожую и подешевле, по функционалу такая же</div>
+						</div>
+						<div class="client-msg">
+							<div class="msg-ava" style="background-image: url({% static 'photos/chat-ava2.png' %});"></div>
+							<div class="msg-text">Привезете в Саратов завта вечером?</div>
+						</div>
+						<div class="seller-msg">
+							<div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
+							<div class="msg-text">Хотя знаете, я тут передумал. Пароварка она такая, она и в хозяйстве пригодится и в качестве стула можно использовать (при желании). На самом деле я просто тестирую текст длинного сообщения, ничего против пароварок не имею. Как вижу все работает, блок тянется, структура не страдает.</div>
+						</div>
+						<div class="client-msg">
+							<div class="msg-ava" style="background-image: url({% static 'photos/chat-ava2.png' %});"></div>
+							<div class="msg-text">Послушайте, я еще максимум 2 дня продержусь без пароварки, выручайте!</div>
+						</div>
+						<div class="seller-msg">
+							<div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
+							<div class="msg-text">Так уж и быть, с помощью этого сервиса грех не выслать пароварку в Саратов!</div>
+						</div>
+					</div>
+					<form action="" class="chat-form">
+						<textarea name="" id="" placeholder="Введите текст"></textarea>
+						<label for="chat-file"></label>
+						<input type="file" name="" id="chat-file">
+						<input type="button" value="Отправить">
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+
+
+
