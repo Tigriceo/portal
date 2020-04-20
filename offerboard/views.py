@@ -1,14 +1,12 @@
 from datetime import datetime, timezone, date, timedelta
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
-# from django.db.models.functions.datetime import datetime
 
-from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView
 
+from chat.models import ChatMessage, RoomChat
 from service.geoip.core import location_geoip
 from .models import Order, Category, Offer
 from .forms import OrderForm, OfferForm, InactiveFilterForm
@@ -80,7 +78,7 @@ class CalculateProfile:
         return Order.objects.filter(buyer=self.request.user)\
                     .filter(date_validity__lte=datetime.now(timezone.utc))\
                     .order_by('-date_validity').count() + \
-               Offer.objects.filter(seller=self.request.user).count()
+               Offer.objects.filter(seller=self.request.user).exclude(status='approve').count()
 
 
 class MyOrderListView(CalculateProfile, LoginRequiredMixin, ListView):
@@ -103,8 +101,9 @@ class ListOfferView(CalculateProfile, LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):  # --------------------------------------------------------------
         """"""
         context = super(ListOfferView, self).get_context_data()
-        context["offer_list"] = Offer.objects.filter(order=self.kwargs.get('pk')).exclude(status='reject')
+        # context["offer_list"] = Offer.objects.filter(order=self.kwargs.get('pk')).exclude(status='reject')  # -------?
         context["count_approve"] = Offer.objects.filter(order=self.kwargs.get('pk'), status='approve').count()
+        context["chat_message"] = ChatMessage.objects.all() # ---?
         print(context["count_approve"])
         return context
 
@@ -134,6 +133,7 @@ class MakeAnOfferView(DetailView):
             form.seller = request.user
             form.order = Order.objects.get(pk=pk)
             form.save()
+            RoomChat.objects.create(offer=form, first=request.user, second=form.order.buyer)
         return redirect('my_offer')
 
 
@@ -151,6 +151,12 @@ class MyOfferInView(CalculateProfile, LoginRequiredMixin, DetailView):
     model = Offer
     template_name = "mypredl-in.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(MyOfferInView, self).get_context_data()
+        context["chat_message"] = ChatMessage.objects.filter(room__offer=self.kwargs.get('pk'))
+        context["room_id"] = RoomChat.objects.get(offer_id=self.kwargs.get('pk')).id
+        return context
+
 
 class InactiveView(CalculateProfile, LoginRequiredMixin, View):
     """Неактивные заявки и предложения и фильтр по дате"""
@@ -161,7 +167,7 @@ class InactiveView(CalculateProfile, LoginRequiredMixin, View):
                     .order_by('-date_validity')
 
     def get_offer(self):
-        return Offer.objects.filter(seller=self.request.user)
+        return Offer.objects.filter(seller=self.request.user).exclude(status='approve')
 
     def get_query_or_date(self, query):
         if self.form.is_valid():

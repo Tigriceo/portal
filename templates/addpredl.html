@@ -61,8 +61,14 @@
                 <div class="addform-price">
                     <input type="number" value="0" name="price_min">
                 </div>
-                <a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
-                <input type="submit" value="Сделать предложение">
+                    <a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
+                {% if user.is_authenticated %}
+                    <input type="submit" value="Сделать предложение">
+                {% else %}
+                    <a href="javascript:;" class="addpage-info" onclick="$('#regform').arcticmodal()">
+						<input type="button" value="Сделать предложение">
+					</a>
+                {% endif %}
             </form>
         </div>
 	</div>

@@ -31,11 +31,14 @@ INSTALLED_APPS = [
 
     'geoip2',
 
+    'channels',
+
     # 'allauth',
     # 'allauth.account',
 
     'offerboard',
     'user',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +70,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'iwbuy.wsgi.application'
+
+ASGI_APPLICATION = 'iwbuy.routing.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 # Password validation

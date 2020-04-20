@@ -5,8 +5,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView, View, CreateView, FormView
+from string import digits
+from random import choice
+from django.contrib.auth.hashers import make_password
 
-from service.smsru.core import send_sms_ru, gen_password
+from service.smsru.core import send_sms_ru
 from .models import Profile
 from .forms import ProfileUpdateForm
 from offerboard.views import CalculateProfile
@@ -22,9 +25,15 @@ class RegistrationView(View):
         except User.DoesNotExist:
             user = User()
             user.username = username
-        user.password = gen_password()
+        code = list()
+        for i in range(4):
+            code.append(choice(digits))
+        hashed_pin = make_password(''.join(code))
+        pin = ''.join(code)
+        print(pin)
+        user.password = hashed_pin
         user.save()
-        print(send_sms_ru(username))
+        print(send_sms_ru(username, pin))
         return HttpResponse(status=201)
 
 

@@ -72,26 +72,25 @@
 						</div>
 					</div>
 					<div class="chat-content">
-						<div class="seller-msg">
-							<div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
-							<div class="msg-text">Предлагаю похожую и подешевле, по функционалу такая же</div>
-						</div>
-						<div class="client-msg">
-							<div class="msg-ava" style="background-image: url({% static 'photos/chat-ava2.png' %});"></div>
-							<div class="msg-text">Привезете в Саратов завта вечером?</div>
-						</div>
-						<div class="seller-msg">
-							<div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
-							<div class="msg-text">Хотя знаете, я тут передумал. Пароварка она такая, она и в хозяйстве пригодится и в качестве стула можно использовать (при желании). На самом деле я просто тестирую текст длинного сообщения, ничего против пароварок не имею. Как вижу все работает, блок тянется, структура не страдает.</div>
-						</div>
-						<div class="client-msg">
-							<div class="msg-ava" style="background-image: url({% static 'photos/chat-ava2.png' %});"></div>
-							<div class="msg-text">Послушайте, я еще максимум 2 дня продержусь без пароварки, выручайте!</div>
-						</div>
-						<div class="seller-msg">
-							<div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
-							<div class="msg-text">Так уж и быть, с помощью этого сервиса грех не выслать пароварку в Саратов!</div>
-						</div>
+
+                        {% for chat in chat_message %}
+                            {% if user == chat.user %}
+                            <div class="seller-msg">
+                                <div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
+                                <div class="msg-text">{{ chat.message }}</div>
+                            </div>
+                            {% else %}
+                            <div class="client-msg">
+                                <div class="msg-ava" style="background-image: url({{ chat.user.profile.avatar.url }});"></div>
+                                <div class="msg-text">{{ chat.message }}</div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+{#                        <div class="client-msg">#}
+{#                            <div class="msg-ava" style="background-image: url({% static 'photos/chat-ava2.png' %});"></div>#}
+{#                            <div id="chat-log" class="msg-text"></div>#}
+{#                        </div>#}
+{#                    {{ room_id }}#}
 					</div>
 					<form action="" class="chat-form">
 						<textarea name="" id="" placeholder="Введите текст"></textarea>
@@ -100,10 +99,55 @@
 						<input type="button" value="Отправить">
 					</form>
 				</div>
+                    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+                    <input id="chat-message-input" type="text" size="100"><br>
+                    <input id="chat-message-submit" type="button" value="Отправить">
 
 			</div>
 		</div>
 	</div>
+    <script>
+        {#const roomName = JSON.parse(document.getElementById('room-name').textContent);#}
+
+        {#console.log(window.location);#}
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + {{room_id}}
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            {#console.log((data.message))#}
+            {#document.getElementById('#chat-log').innerHTML = (data.message);#}
+            document.querySelector('#chat-log').value += (data.message + '\n');
+            console.log((data.message))
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'user': {{ user.id }}
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
 {% endblock content %}
 
 

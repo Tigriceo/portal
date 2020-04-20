@@ -1349,8 +1349,8 @@ input[type='checkbox']:checked+label.addform-subcatlabel:before {
 	display: none;
 }
 
-.addpage form input[type='submit'],
-.addpredl form input[type='submit'] {
+.addpage form input[type='button'],
+.addpredl form input[type='button'] {
 	background: #00a1e4;
 	border-radius: 8px;
 	padding: 10px 20px;
@@ -1367,8 +1367,8 @@ input[type='checkbox']:checked+label.addform-subcatlabel:before {
 	transition: 0.2s;
 }
 
-.addpage form input[type='submit']:hover,
-.addpredl form input[type='submit']:hover {
+.addpage form input[type='button']:hover,
+.addpredl form input[type='button']:hover {
 	background: #eb3a9a;
 }
 

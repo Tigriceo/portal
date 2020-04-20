@@ -4,159 +4,193 @@
 
 
 {% block content %}
-			<div class="content-r">
+<div class="content-r">
+    <h1>Мои запросы</h1>
+    <div class="tovars-flex">
+        <div class="tovar-block tovar-zapros">
+            <div class="tovar-city">Москва</div>
+            <div class="tovar-img" style="background-image: url({{ order.photo.url }});">
+                <div class="tovar-mypredl-label tovar-zapros-label">
+                    мой запрос
+                </div>
+            </div>
+            <div class="tovar-info">
+                <h2>{{ order.name }}</h2>
+                {{ order.description }}
+            </div>
+            <div class="tovar-foot">
+                <div class="tovar-price">
+                    желаемая стоимость<br>
+                    <span>{{order.price_min}} - {{order.price_max}}руб</span>
+                </div>
+                <div class="tovar-offer">
+                    <span class="tovar-actual">Актуально {{ order.date_validity|delta }}</span>
+                </div>
+            </div>
+            <a class="delete-zapros">Удалить запрос</a>
+        </div>
 
-				<h1>Мои запросы</h1>
-
-				<div class="tovars-flex">
-
-					<div class="tovar-block tovar-zapros">
-						<div class="tovar-city">Москва</div>
-						<div class="tovar-img" style="background-image: url({{ order.photo.url }});">
-							<div class="tovar-mypredl-label tovar-zapros-label">
-								мой запрос
-							</div>
-						</div>
-						<div class="tovar-info">
-							<h2>{{ order.name }}</h2>
-							{{ order.description }}
-						</div>
-						<div class="tovar-foot">
-							<div class="tovar-price">
-								желаемая стоимость<br>
-								<span>{{order.price_min}} - {{order.price_max}}руб</span>
-							</div>
-							<div class="tovar-offer">
-								<span class="tovar-actual">Актуально {{ order.date_validity|delta }}</span>
-							</div>
-						</div>
-
-						<a class="delete-zapros">Удалить запрос</a>
-
-					</div>
-
-{% for offer in order.offers.all %}
-    {% if offer.status != 'reject' %}
-					<div class="tovar-block tovar-mypredl">
-
-						<div class="tovar-city">Москва</div>
-						<div class="tovar-img" style="background-image: url({{ offer.photo.url }});">
-							<div class="tovar-mypredl-label">
-								предложение покупателя
-							</div>
-						</div>
-						<div class="tovar-info">
-							<h2>{{ offer.name }}</h2>
-							{{ offer.description }}
-						</div>
-						<div class="tovar-foot">
-							<div class="tovar-price">
-								указанная стоимость<br>
-								<span>{{offer.price_min}}руб</span>
-							</div>
-						</div>
-
-					</div>
-    {% endif %}
-{% endfor %}
-
-				</div>
+        {% for offer in order.offers.all %}
+            {% if offer.status != 'reject' %}
+            <div class="tovar-block tovar-mypredl">
+                <div class="tovar-city">Москва</div>
+                <div class="tovar-img" style="background-image: url({{ offer.photo.url }});">
+                    <div class="tovar-mypredl-label">
+                        предложение покупателя
+                    </div>
+                </div>
+                <div class="tovar-info">
+                    <h2>{{ offer.name }}</h2>
+                    {{ offer.description }}
+                </div>
+                <div class="tovar-foot">
+                    <div class="tovar-price">
+                        указанная стоимость<br>
+                        <span>{{offer.price_min}}руб</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 
 
-				<div class="sort-block">
-					Сортировать по
-					<select data-placeholder="Релевантности">
-						<option value="Релевантности">Релевантности</option>
-						<option value="Новизне">Новизне</option>
-					</select>
-				</div>
-{% for offer in order.offers.all %}
-    {% if offer.status != 'reject' %}
-				<div class="chat-block">
-					<a class="chat-hide" href="javascript:;"></a>
-					<div class="chat-header">
-						<div class="chat-ava" style="background-image: url({{offer.seller.profile.avatar.url}});"></div>
-						<div class="chat-info">
-							<div class="chat-title">{{ offer.name }}</div>
-							<div class="chat-price">Указанная стоимость <span>{{offer.price_min}}руб</span>
-								<div>
-                                    <form action="{% url 'offer_list' offer.id %}" method="post">
-                                        {% csrf_token %}
-                                        {{ form }}
-                                        <button class="otkl-zapros" name="reject" type="submit">Отклонить предложение</button>
-                                        {% if offer.status != 'approve' and count_approve < 2 %}
-                                        <button class="odobr-zapros" name="approve" type="submit">Одобрить</button>
-                                        {% endif %}
-                                    </form>
-								</div>
-							</div>
-						</div>
-					</div>
+    <div class="sort-block">
+        Сортировать по
+        <select data-placeholder="Релевантности">
+            <option value="Релевантности">Релевантности</option>
+            <option value="Новизне">Новизне</option>
+        </select>
+    </div>
+    {% for offer in order.offers.all %}
+        {% if offer.status != 'reject' %}
+        <div class="chat-block">
+            <a class="chat-hide" href="javascript:;"></a>
+            <input type="button" id="test" value="{{offer.roomchat.id}}" > {#        onclick="getGO()"#}
+            <div class="chat-header">
+                <div class="chat-ava" style="background-image: url({{offer.seller.profile.avatar.url}});"></div>
+                <div class="chat-info">
+                    <div class="chat-title">{{ offer.name }}</div>
+                    <div class="chat-price">Указанная стоимость<span>{{offer.price_min}}руб</span>
+                        <div>
+                            <form action="{% url 'offer_list' offer.id %}" method="post">
+                                {% csrf_token %}
+                                {{ form }}
+                                <button class="otkl-zapros" name="reject" type="submit">Отклонить предложение</button>
+                                {% if offer.status != 'approve' and count_approve < 2 %}
+                                <button class="odobr-zapros" name="approve" type="submit">Одобрить</button>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-precontent">
+                <div class="slider chat-slider">
+                    <div class="slider-img">
+                        <img src="photos/slider-1.png" alt="">
+                    </div>
+                    <div class="slider-img">
+                        <img src="photos/slider-1.png" alt="">
+                    </div>
+                    <div class="slider-img">
+                        <img src="photos/slider-1.png" alt="">
+                    </div>
+                    <div class="slider-img">
+                        <img src="photos/slider-1.png" alt="">
+                    </div>
+                    <div class="slider-img">
+                        <img src="photos/slider-1.png" alt="">
+                    </div>
+                </div>
+                <div class="chat-content">
+                    {% for chat in chat_message %}
 
-					<div class="chat-precontent">
-						<div class="slider chat-slider">
-							<div class="slider-img">
-								<img src="photos/slider-1.png" alt="">
-							</div>
-							<div class="slider-img">
-								<img src="photos/slider-1.png" alt="">
-							</div>
-							<div class="slider-img">
-								<img src="photos/slider-1.png" alt="">
-							</div>
-							<div class="slider-img">
-								<img src="photos/slider-1.png" alt="">
-							</div>
-							<div class="slider-img">
-								<img src="photos/slider-1.png" alt="">
-							</div>
-						</div>
-						<div class="chat-content">
-							<div class="seller-msg">
-								<div class="msg-ava" style="background-image: url(photos/chat-ava.png);"></div>
-								<div class="msg-text">Предлагаю похожую и подешевле, по функционалу такая же</div>
-							</div>
-							<div class="client-msg">
-								<div class="msg-ava" style="background-image: url(photos/chat-ava2.png);"></div>
-								<div class="msg-text">Привезете в Саратов завта вечером?</div>
-							</div>
-							<div class="seller-msg">
-								<div class="msg-ava" style="background-image: url(photos/chat-ava.png);"></div>
-								<div class="msg-text">Хотя знаете, я тут передумал. Пароварка она такая, она и в
-									хозяйстве пригодится и в качестве стула можно использовать (при желании). На самом
-									деле я просто тестирую текст длинного сообщения, ничего против пароварок не имею.
-									Как вижу все работает, блок тянется, структура не страдает.</div>
-							</div>
-							<div class="client-msg">
-								<div class="msg-ava" style="background-image: url(photos/chat-ava2.png);"></div>
-								<div class="msg-text">Послушайте, я еще максимум 2 дня продержусь без пароварки,
-									выручайте!</div>
-							</div>
-							<div class="seller-msg">
-								<div class="msg-ava" style="background-image: url(photos/chat-ava.png);"></div>
-								<div class="msg-text">Так уж и быть, с помощью этого сервиса грех не выслать пароварку в
-									Саратов!</div>
-							</div>
-						</div>
-					</div>
+                        {% if user == chat.user %}
+                        <div class="seller-msg">
+                            <div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
+                            <div class="msg-text">{{ chat.message }}</div>
+                        </div>
+                        {% else %}
+                        <div class="client-msg">
+                            <div class="msg-ava" style="background-image: url({{ chat.user.profile.avatar.url }});"></div>
+                            <div class="msg-text">{{ chat.message }}</div>
+                        </div>
+                        {% endif %}
 
-					<form action="" class="chat-form chat-corr1">
-						<a href="#" class="open-predl">
-							<div><img src="img/eye.svg" alt=""></div>Показать предложение продавца
-						</a>
-						<textarea name="" id="" placeholder="Введите текст"></textarea>
-						<label for="chat-file"></label>
-						<input type="file" name="" id="chat-file">
-						<input type="button" value="Отправить">
-					</form>
-				</div>
-    {% endif %}
-{% endfor %}
-
-
-			</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <form action="" class="chat-form chat-corr1">
+                <a href="#" class="open-predl">
+                    <div><img src="img/eye.svg" alt=""></div>Показать предложение продавца
+                </a>
+                <textarea name="" id="" placeholder="Введите текст"></textarea>
+                <label for="chat-file"></label>
+                <input type="file" name="" id="chat-file">
+                <input type="button" value="Отправить">
+            </form>
+        </div>
+                <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+                <input id="chat-message-input" type="text" size="100"><br>
+                <input id="chat-message-submit" type="button" value="Отправить">
+        {% endif %}
+    {% endfor %}
+</div>
 		</div>
 	</div>
+    <script>
+    {#console.log(window.location);#}
+
+    {#function getGO() {#}
+    {#    let element = document.getElementById('test');#}
+    {#    console.log(element.value);#}
+
+        document.querySelector('#test').onclick = function(e){
+        var element = document.getElementById('test');
+            console.log(element.value);
+
+        {#const roomName = JSON.parse(document.getElementById('room-name').textContent);#}
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + element.value
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            {#console.log((data.message))#}
+            {#document.getElementById('#chat-log').innerHTML = (data.message);#}
+            document.querySelector('#chat-log').value += (data.message + '\n');
+            console.log((data.message))
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'user': {{ user.id }}
+            }));
+            messageInputDom.value = '';
+        };
+        }
+    </script>
+
 {% endblock content %}
 
 
