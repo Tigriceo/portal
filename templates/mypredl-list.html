@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="content-r">
-    <h1>Мои запросы</h1>
+    <h1><a href="javascript:;" class="cat-menu-link profile-corr"></a>Мои запросы</h1>
     <div class="tovars-flex">
         <div class="tovar-block tovar-zapros">
             <div class="tovar-city">Москва</div>
@@ -62,11 +62,17 @@
             <option value="Новизне">Новизне</option>
         </select>
     </div>
-    {% for offer in order.offers.all %}
+
+
+
+<div class="chat-columns">
+    <div class="chat-columns-interesnenko">
+        <span>Интересные предложения</span>
+        {% for offer in order.offers.all %}
         {% if offer.status != 'reject' %}
         <div class="chat-block">
-            <a class="chat-hide" href="javascript:;"></a>
-            <input type="button" id="test" value="{{offer.roomchat.id}}" > {#        onclick="getGO()"#}
+            <a class="chat-hide" data-roomchat="{{offer.roomchat.id}}" href="javascript:;"></a>
+            {# <input type="button" id="test" value="{{offer.roomchat.id}}" >         onclick="getGO()"#}
             <div class="chat-header">
                 <div class="chat-ava" style="background-image: url({{offer.seller.profile.avatar.url}});"></div>
                 <div class="chat-info">
@@ -76,7 +82,7 @@
                             <form action="{% url 'offer_list' offer.id %}" method="post">
                                 {% csrf_token %}
                                 {{ form }}
-                                <button class="otkl-zapros" name="reject" type="submit">Отклонить предложение</button>
+                                <button class="otkl-zapros" name="reject" type="submit">Отклонить</button>
                                 {% if offer.status != 'approve' and count_approve < 2 %}
                                 <button class="odobr-zapros" name="approve" type="submit">Одобрить</button>
                                 {% endif %}
@@ -85,24 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chat-precontent">
-                <div class="slider chat-slider">
-                    <div class="slider-img">
-                        <img src="photos/slider-1.png" alt="">
-                    </div>
-                    <div class="slider-img">
-                        <img src="photos/slider-1.png" alt="">
-                    </div>
-                    <div class="slider-img">
-                        <img src="photos/slider-1.png" alt="">
-                    </div>
-                    <div class="slider-img">
-                        <img src="photos/slider-1.png" alt="">
-                    </div>
-                    <div class="slider-img">
-                        <img src="photos/slider-1.png" alt="">
-                    </div>
-                </div>
+            <div class="chat-precontent" style="display: none;">
                 <div class="chat-content">
                     {% for chat in chat_message %}
 
@@ -121,49 +110,127 @@
                     {% endfor %}
                 </div>
             </div>
-            <form action="" class="chat-form chat-corr1">
-                <a href="#" class="open-predl">
-                    <div><img src="img/eye.svg" alt=""></div>Показать предложение продавца
-                </a>
+            <form action="" class="chat-form chat-corr1" style="display: none;">
                 <textarea name="" id="" placeholder="Введите текст"></textarea>
                 <label for="chat-file"></label>
                 <input type="file" name="" id="chat-file">
                 <input type="button" value="Отправить">
             </form>
+            <textarea id="chat-log"></textarea><br>
+            <input id="chat-message-input" type="text" size="50"><br>
+            <input id="chat-message-submit" type="button" value="Отправить">
         </div>
-                <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-                <input id="chat-message-input" type="text" size="100"><br>
-                <input id="chat-message-submit" type="button" value="Отправить">
         {% endif %}
     {% endfor %}
+    </div>
+
+    <div class="chat-columns-neinteresnenko">
+        <span>Все предложения</span>
+        {% for offer in order.offers.all %}
+        {% if offer.status != 'reject' %}
+        <div class="chat-block">
+            <a class="chat-hide" data-roomchat="{{offer.roomchat.id}}" href="javascript:;"></a>
+            {# <input type="button" id="test" value="{{offer.roomchat.id}}" >         onclick="getGO()"#}
+            <div class="chat-header">
+                <div class="chat-ava" style="background-image: url({{offer.seller.profile.avatar.url}});"></div>
+                <div class="chat-info">
+                    <div class="chat-title">{{ offer.name }}</div>
+                    <div class="chat-price">Указанная стоимость<span>{{offer.price_min}}руб</span>
+                        <div>
+                            <form action="{% url 'offer_list' offer.id %}" method="post">
+                                {% csrf_token %}
+                                {{ form }}
+                                <button class="otkl-zapros" name="reject" type="submit">Отклонить</button>
+                                {% if offer.status != 'approve' and count_approve < 2 %}
+                                <button class="odobr-zapros" name="approve" type="submit">Одобрить</button>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-precontent" style="display: none;">
+                <div class="chat-content">
+                    {% for chat in chat_message %}
+
+                        {% if user == chat.user %}
+                        <div class="seller-msg">
+                            <div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
+                            <div class="msg-text">{{ chat.message }}</div>
+                        </div>
+                        {% else %}
+                        <div class="client-msg">
+                            <div class="msg-ava" style="background-image: url({{ chat.user.profile.avatar.url }});"></div>
+                            <div class="msg-text">{{ chat.message }}</div>
+                        </div>
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+            </div>
+            <form action="" class="chat-form chat-corr1" style="display: none;">
+                <textarea name="" id="" placeholder="Введите текст"></textarea>
+                <label for="chat-file"></label>
+                <input type="file" name="" id="chat-file">
+                <input type="button" value="Отправить">
+            </form>
+            <textarea id="chat-log"></textarea><br>
+            <input id="chat-message-input" type="text" size="50"><br>
+            <input id="chat-message-submit" type="button" value="Отправить">
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+
+</div>
+
+
+
+    
 </div>
 		</div>
 	</div>
     <script>
-    {#console.log(window.location);#}
 
-    {#function getGO() {#}
-    {#    let element = document.getElementById('test');#}
-    {#    console.log(element.value);#}
+$(document).ready(function() {
+    $('.chat-hide').on('click', f_acc);
+    //регистрация функции-обработчика клика на кнопку гамбургера
+});
 
-        document.querySelector('#test').onclick = function(e){
-        var element = document.getElementById('test');
-            console.log(element.value);
+function f_acc() {
+    //start Работа гамбургера
+    $('.chat-hide').not(this).removeClass('chat-showed');
+    $('.chat-block').not((this).closest('.chat-block')).find('.chat-header').removeClass('chat-showed');
+    $('.chat-block').not((this).closest('.chat-block')).find('.chat-header').removeClass('chat-showed-h');
+    $('.chat-block').not((this).closest('.chat-block')).find('.chat-precontent').slideUp(300);
+    $('.chat-block').not((this).closest('.chat-block')).find(".chat-form").slideUp(300);
+    $(this).toggleClass('chat-showed');
+	$(this).closest('.chat-block').find('.chat-header').toggleClass('chat-showed-h');
+	$(this).closest('.chat-block').find('.chat-precontent').slideToggle(300);
+    $(this).closest('.chat-block').find(".chat-form").slideToggle(300);
+    //end
+    
+    var valueid = "";//очищаем заранее id чата
+    
+    if ($(this).hasClass('chat-showed')){//если чат открылся, ну мало ли
+        valueid = $(this).data("roomchat");//получаем id чата
+        console.log(valueid);
 
-        {#const roomName = JSON.parse(document.getElementById('room-name').textContent);#}
+        //const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
+        //в отладчике браузера у меня тут проблема кстати
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
             + '/ws/chat/'
-            + element.value
+            + valueid
             + '/'
         );
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            {#console.log((data.message))#}
-            {#document.getElementById('#chat-log').innerHTML = (data.message);#}
+            //console.log((data.message))
+            //document.getElementById('#chat-log').innerHTML = (data.message);
             document.querySelector('#chat-log').value += (data.message + '\n');
             console.log((data.message))
         };
@@ -188,7 +255,8 @@
             }));
             messageInputDom.value = '';
         };
-        }
+    }
+    }
     </script>
 
 {% endblock content %}

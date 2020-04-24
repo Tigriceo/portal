@@ -5,47 +5,72 @@
 
 {% block left %}
 <div class="bg-all">
-	<div class="const">
-		<div class="sidebar">
-			<div class="city-select">
-				<select data-placeholder="Выберите город">
-					<option value=""></option>
-					<option value="Все города">Все города</option>
-					<option value="Москва">Москва</option>
-					<option value="Санкт-Петербург">Санкт-Петербург</option>
-					<option value="Владивосток">Владивосток</option>
-					<option value="Тула">Тула</option>
-					<option value="Тверь">Тверь</option>
-					<option value="Якутск">Якутск</option>
-					<option value="Новосибирск">Новосибирск</option>
-					<option value="Орел">Орел</option>
-					<option value="Курск">Курск</option>
-					<option value="Воронеж">Воронеж</option>
-					<option value="Иваново">Иваново</option>
-	  			</select>
-				<div class="city-selected-block">Вы выбрали город: <span id="city-selected">Москва</span></div>
-			</div>
-
-			<div class="cat-menu-block">
-				<span class="cat-menu-title">Категории</span>
-				<ul>
-					<li><a href="">Товары для животных <span>(13)</span></a></li>
-					<li><a href="">Товары для животных <span>(13)</span></a></li>
-					<li class="cat-active"><a href="">Товары для животных <span>(13)</span></a></li>
-					<li><a href="">Товары для животных <span>(13)</span></a></li>
-					<li><a href="">Товары для дома <span>(13)</span></a></li>
-					<li><a href="">Товары для животных <span>(13)</span></a></li>
-					<li><a href="">Товары для животных <span>(13)</span></a></li>
-					<li><a href="">Товары для животных и дома и собак <span>(13)</span></a></li>
-				</ul>
-			</div>
+	<div class="menu-bg">
+		<a href="javascript:;" class="menu-close"></a>
+		<div class="city-select">
+			<select data-placeholder="Выберите город">
+				<option value=""></option>
+				<option value="Все города">Все города</option>
+				<option value="Москва">Москва</option>
+				<option value="Санкт-Петербург">Санкт-Петербург</option>
+				<option value="Владивосток">Владивосток</option>
+				<option value="Тула">Тула</option>
+				<option value="Тверь">Тверь</option>
+				<option value="Якутск">Якутск</option>
+				<option value="Новосибирск">Новосибирск</option>
+				<option value="Орел">Орел</option>
+				<option value="Курск">Курск</option>
+				<option value="Воронеж">Воронеж</option>
+				<option value="Иваново">Иваново</option>
+			</select>
+			<div class="city-selected-block">Вы выбрали город: <span id="city-selected">Москва</span></div>
 		</div>
+		<span class="menu-title">Категории</span>
+		<ul class="menu-ul">
+			<li> <a href="/category/tovary-dlya-zhivotnyh/">Товары для животных <span>6</span></a>
+				<ul>
+					<li> <a href="/category/dlya-sobak/">Для собак <span>2</span></a>
+						<ul>
+							<li> <a href="/category/korma-i-lakomstva/">Корма и лакомства <span>0</span></a> </li>
+							<li> <a href="/category/perenoski/">Переноски <span>0</span></a> </li>
+						</ul>
+					</li>
+					<li> <a href="/category/dlya-koshek/">Для кошек <span>2</span></a>
+						<ul>
+							<li> <a href="/category/korma-i-lakomstva/">Корма и лакомства <span>0</span></a> </li>
+							<li> <a href="/category/perenoski-i-aksessuary/">Переноски и аксессуары <span>0</span></a> </li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li> <a href="/category/bytovaya-tehnika/">Бытовая техника <span>4</span></a>
+				<ul>
+					<li> <a href="/category/tehnika-dlya-doma/">Техника для дома <span>1</span></a>
+						<ul>
+							<li> <a href="/category/pylesosy-i-aksessuary/">Пылесосы и аксессуары <span>0</span></a> </li>
+						</ul>
+					</li>
+					<li> <a href="/category/tehnika-dlya-kuhni/">Техника для кухни <span>1</span></a>
+						<ul>
+							<li> <a href="/category/sokovyzhimalki/">Соковыжималки <span>0</span></a> </li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="const">
+
+
+
 		{% endblock left %}
 
 		{% block content %}
 		<div class="content-r">
 			<div class="bread-cat">
-				<span>электроника</span> <span>портативная</span> <span class="bread-cat-active">плееры</span>
+				<a href="javascript:;" class="cat-menu-link global-corr">Все категории</a>
+				<a class="bread-cat-a" href="#">электроника</a> <a class="bread-cat-a" href="#">портативная</a> <span
+					class="bread-cat-active">плееры</span>
 			</div>
 			<div class="tovars-flex">
 				<div class="tovar-block tovar-add">
@@ -80,11 +105,11 @@
 				</div>
 
 				{% for advert in order_list %}
-					{% if advert.date_validity|delta == 'quickly' %}
-					<div class="tovar-block tovar-hot">
+				{% if advert.date_validity|delta == 'quickly' %}
+				<div class="tovar-block tovar-hot">
 					{% else %}
 					<div class="tovar-block">
-					{% endif %}
+						{% endif %}
 						<div class="tovar-city">Санкт-Петербург</div>
 						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});"></div>
 						<div class="tovar-info">
@@ -111,7 +136,7 @@
 						</div>
 						<a href="{{ advert.get_absolute_url }}" class="discuss">Сделать предложение</a>
 					</div>
-				{% endfor %}
+					{% endfor %}
 				</div>
 			</div>
 		</div>

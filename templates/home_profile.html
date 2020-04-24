@@ -3,24 +3,24 @@
 
 {% block left %}
 <div class="bg-all">
+
+    <div class="menu-bg">
+		<a href="javascript:;" class="menu-close"></a>
+		<span class="menu-title">Меню профиля</span>
+        <ul class="menu-ul">
+            {% url 'profile' as profile %}
+            <li {% if profile|active:request %} class="cat-active" {% endif %}><a href="{{profile}}">Мой профиль</a></li>
+            {% url 'my_order' as my_order %}
+            <li {% if my_order|active:request %} class="cat-active" {% endif %}><a href="{{my_order}}">Мои запросы <span>({{get_sum_order}}{{view.get_sum_order}})</span></a></li>
+            {% url 'inactive' sort='all' as inactive %}
+            <li {% if inactive|active:request %} class="cat-active" {% endif %}><a href="{{inactive}}">Неактивные <span>({{get_sum_inactive}}{{view.get_sum_inactive}})</span></a></li>
+            {% url 'my_offer' as my_offer %}
+            <li {% if my_offer|active:request %} class="cat-active" {% endif %}><a href="{{my_offer}}">Мои предложения <span>({{get_sum_offer}}{{view.get_sum_offer}})</span></a></li>
+            <li><a href="">Сообщения <span>(13)</span></a></li>
+            <li><a href="" style="color:tomato">Платные услуги</a></li>
+        </ul>
+    </div>
     <div class="const">
-        <div class="sidebar">
-            <div class="cat-menu-block">
-                <span class="cat-menu-title">Меню профиля</span>
-                <ul>
-                    {% url 'profile' as profile %}
-                    <li {% if profile|active:request %} class="cat-active" {% endif %}><a href="{{profile}}">Мой профиль</a></li>
-                    {% url 'my_order' as my_order %}
-                    <li {% if my_order|active:request %} class="cat-active" {% endif %}><a href="{{my_order}}">Мои запросы <span>({{get_sum_order}}{{view.get_sum_order}})</span></a></li>
-                    {% url 'inactive' sort='all' as inactive %}
-                    <li {% if inactive|active:request %} class="cat-active" {% endif %}><a href="{{inactive}}">Неактивные <span>({{get_sum_inactive}}{{view.get_sum_inactive}})</span></a></li>
-                    {% url 'my_offer' as my_offer %}
-                    <li {% if my_offer|active:request %} class="cat-active" {% endif %}><a href="{{my_offer}}">Мои предложения <span>({{get_sum_offer}}{{view.get_sum_offer}})</span></a></li>
-                    <li><a href="">Платные услуги <span>(13)</span></a></li>
-                    <li><a href="">Сообщения <span>(13)</span></a></li>
-                </ul>
-            </div>
-        </div>
 {% endblock left %}
 
 {% block content %}

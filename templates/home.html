@@ -12,6 +12,7 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>Главная страница</title>
 		<link rel="stylesheet" href="{% static 'style.css' %}">
+		<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 	</head>
 <body class="page page_fix">
 
@@ -65,7 +66,7 @@
 
 				<li>
 				<a href="#">{{ node.name }} <span>{{ node.get_descendant_count }}</span></a>
-					<div class="podmenu">
+					
 {#					<ul>#}
 
 						{% if not node.is_leaf_node %}
@@ -80,7 +81,7 @@
 						{% endif %}
 
 <!--						</ul>-->
-					</div>
+					
 				</li>
 				{% endrecursetree %}
 <!--				    -------------------------------------------тест----------------------------------               -->
