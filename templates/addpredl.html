@@ -43,7 +43,7 @@
             <h1>Сделать предложение</h1>
             <form action="{% url 'order' order.id %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <a href="#" class="addpage-img" style="background-image:none;">
+                <a href="javascript:;" class="addpage-img" style="background-image:none;">
                     <img src="{% static 'img/add-photo-blue.svg' %}" alt=""><br>
                     <div>Добавить фото</div>
                     <input type="file" name="photo">
