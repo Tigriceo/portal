@@ -49,14 +49,15 @@
 			</div>
 			<div class="tovars-flex">
 				<div class="tovar-block tovar-add">
-					<a href="">
+
+					{% if user.is_authenticated %}
+                        <a href="{% url 'add_order' %}">
 						<div class="tovar-img-add">
 							<img src="{% static 'img/add-photo.svg' %}" alt=""><br>
 							<div>Добавить фото</div>
 						</div>
-					</a>
-					{% if user.is_authenticated %}
-					<a href="{% url 'add_order' %}">
+
+
 					<form action="">
 						<input type="text" placeholder="{{search}}">
 						<input type="button" value="Добавить запрос">
@@ -64,6 +65,12 @@
 					</a>
 					{% else %}
 					<a href="javascript:;" onclick="$('#regform').arcticmodal()">
+
+						<div class="tovar-img-add">
+							<img src="{% static 'img/add-photo.svg' %}" alt=""><br>
+							<div>Добавить фото</div>
+						</div>
+
 					<form action="">
 						<input type="text" placeholder="{{search}}">
 						<input type="button" value="Добавить запрос">

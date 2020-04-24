@@ -29,6 +29,7 @@ class OrderListView(View):
     def get(self, request):
         order_list = Order.objects.filter()[:4]
         category_list = Category.objects.all()
+        # city = location_geoip(request)
         print(location_geoip(request))
         return render(request, 'home.html', {'order_list': order_list, 'category_list': category_list})
 

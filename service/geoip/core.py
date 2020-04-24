@@ -1,4 +1,5 @@
 from django.contrib.gis.geoip2 import GeoIP2
+import geoip2.database
 
 
 # Геолокация - определение города по ip
@@ -14,4 +15,10 @@ def location_geoip(request):
     # g = GeoIP2()
     # location = g.city(ip)
     # location_city = location["city"]
+
+    # reader = geoip2.database.Reader('service/geoip/GeoLite2-City.mmdb')
+    # response = reader.city(ip)
+    # location_city = response.city.names['ru']
+    # print(location_city)
+    # reader.close()
     # return location_city

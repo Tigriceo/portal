@@ -25,18 +25,12 @@ function getPass() {
             console.log("False")
         }
     })
+    // Изменяем текст кнопки послее ее нажатия
+    let elem = document.querySelector('#btn');
+    elem.setAttribute('value', 'Пароль отправлен на указанный номер');
+    elem.style.background = "#eb3a9a";
+    elem.disabled = true;
 }
 
-
-// Проверка ввода номера телефона (цифры а не буквы)
-(function(){
-  let text = document.getElementById("id_username"),
-      testText;
-      text.onkeyup = function testKey(){
-         let testText = text.value;
-          if(testText*1 + 0  !=  text.value){
-            text.value = testText.substring(0, testText.length - 1)
-
-          }
-      }
-})();
+// Проверяем ввод номера телефона
+document.querySelector("input[name='username']").oninput = e => e.target.value = e.target.value.replace(/\D/g, '');

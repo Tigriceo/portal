@@ -2190,3 +2190,16 @@ a.chat-hide.chat-showed {
 		box-shadow: none;
 	}
 }
+
+/* Фиксируем позицию body, которую меняет панель гугла*/
+
+.page_fix {
+    top: 0 !important;
+    position: static !important;
+}
+
+/* Прячем панель гугла */
+
+.skiptranslate {
+    display: none !important;
+}
