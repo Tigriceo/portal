@@ -63,29 +63,6 @@
 			<span class="menu-title">Категории</span>
 			<ul class="menu-ul">
 				{% recursetree category_list %}
-
-				<li>
-				<a href="#">{{ node.name }} <span>{{ node.get_descendant_count }}</span></a>
-					
-{#					<ul>#}
-
-						{% if not node.is_leaf_node %}
-
-						<ul>
-
-<!--							<span class="menu-podtitle">Подкатегория</span>-->
-							{{ children }}
-
-						</ul>
-
-						{% endif %}
-
-<!--						</ul>-->
-					
-				</li>
-				{% endrecursetree %}
-<!--				    -------------------------------------------тест----------------------------------               -->
-				{% recursetree category_list %}
                     <li>
                         <a href="{% url 'category' node.slug %}">{{ node.name }} <span>{{ node.get_descendant_count }}</span></a>
                         {% if not node.is_leaf_node %}
