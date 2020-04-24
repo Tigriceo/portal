@@ -38,17 +38,12 @@ jQuery(document).ready(function () {
 		});
 	});
 
-	$(".chat-block .chat-hide").click(function () {
-		$(this).toggleClass('chat-showed');
-		$(this).closest('.chat-block').find('.chat-header').toggleClass('chat-showed-h');
-		$(this).closest('.chat-block').find('.chat-precontent').slideToggle(300);
-		$(this).closest('.chat-block').find(".chat-form").slideToggle(300);
+	$(".addpage-img").click(function () {
+        $(this).find('input[type="file"]')[0].click();
 	});
-
-	jQuery('.menu-ul > li > a').on('click', function (e) {
-		e.preventDefault(); // этот код предотвращает стандартное поведение браузера по клику
-		// остальной код
-	});
-
+	$('.addpage-img input[type="file"]').change(function(e){
+        let value = e.target.files[0].name;
+        $(this).closest('.addpage-img').find('div').text(value);
+    });
 
 });
