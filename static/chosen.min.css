@@ -60,7 +60,7 @@
 	padding:0 0 0 14px;
 	height:40px;
 	border:1px solid #00a8e7;
-	border-radius:8px;
+	border-radius:6px;
 	background-color:#fff;
 	color:#0675aa;
 	text-decoration:none;
@@ -145,7 +145,7 @@
 		line-height: normal;
 		border-radius: 0;
 		display: block;
-		border-radius: 2px;
+		border-radius: 4px;
 	}
 	
 	.chosen-container-single .chosen-drop {
@@ -180,6 +180,7 @@
 		line-height: 15px;
 		word-wrap: break-word;
 		-webkit-touch-callout: none;
+		border-radius: 4px;
 	}
 	
 	.chosen-container .chosen-results li.active-result {
