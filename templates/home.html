@@ -4,6 +4,7 @@
 {% load padegi_tags %}
 {% load i18n %}
 {#{% load account  %}#}
+{% load category_tags %}
 
 <html lang="ru">
 	<head>
@@ -40,9 +41,9 @@
 					</div>
 				{% endif %}
 			</div>
-			<div class="lang-block">
-				<a href="#" class="russian-lang"><img src="{% static 'img/rus-lang.svg' %}" alt="">Русский</a>
-			</div>
+{#			<div class="lang-block">#}
+{#				<a href="#" class="russian-lang"><img src="{% static 'img/rus-lang.svg' %}" alt="">Русский</a>#}
+{#			</div>#}
         <div class="language">
         <img src="{% static 'img/lang__ru.png' %}" alt="ru" data-google-lang="ru" class="language__img">
         <img src="{% static 'img/lang__en.png' %}" alt="en" data-google-lang="en" class="language__img">
@@ -58,32 +59,19 @@
 
 {% block left %}
 	<div class="bg-home">
-		<div class="menu-bg">
-			<a href="javascript:;" class="menu-close"></a>
-			<span class="menu-title">Категории</span>
-			<ul class="menu-ul">
-				{% recursetree category_list %}
-                    <li>
-                        <a href="{% url 'category' node.slug %}">{{ node.name }} <span>{{ node.get_descendant_count }}</span></a>
-                        {% if not node.is_leaf_node %}
-                            <ul>
-                                {{ children }}
-                            </ul>
-                        {% endif %}
-                    </li>
-				{% endrecursetree %}
-			</ul>
-		</div>
 {% endblock left %}
 
-{% block content %}
+{% menu_categories %}
+
+
+        {% block content %}
 		<div class="const">
 			<a href="javascript:;" class="cat-menu-link">Категории</a>
 			<h1>Для тех, кто ценит время</h1>
 			<a href="#" class="nobgbut"> Инструкция по работе с порталом</a>
-			<div class="bread">
-				<span>электроника</span> <span>портативная</span> <span>плееры</span>
-			</div>
+{#			<div class="bread">#}
+{#				<span>электроника</span> <span>портативная</span> <span>плееры</span>#}
+{#			</div>#}
 			<form action="{% url 'search' %}" method="get" class="search-form">
 				<input type="text" placeholder="Введите текст" name="q">
 				<input type="submit" value="Поиск">

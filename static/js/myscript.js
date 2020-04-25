@@ -29,7 +29,7 @@ function getPass() {
     let elem = document.querySelector('#btn');
     elem.setAttribute('value', 'Пароль отправлен на указанный номер');
     elem.style.background = "#eb3a9a";
-    elem.disabled = true;
+    // elem.disabled = true;
 }
 
 // Проверяем ввод номера телефона

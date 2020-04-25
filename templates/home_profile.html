@@ -16,7 +16,7 @@
             <li {% if inactive|active:request %} class="cat-active" {% endif %}><a href="{{inactive}}">Неактивные <span>({{get_sum_inactive}}{{view.get_sum_inactive}})</span></a></li>
             {% url 'my_offer' as my_offer %}
             <li {% if my_offer|active:request %} class="cat-active" {% endif %}><a href="{{my_offer}}">Мои предложения <span>({{get_sum_offer}}{{view.get_sum_offer}})</span></a></li>
-            <li><a href="">Сообщения <span>(13)</span></a></li>
+{#            <li><a href="">Сообщения <span>(13)</span></a></li>#}
             <li><a href="" style="color:tomato">Платные услуги</a></li>
         </ul>
     </div>
