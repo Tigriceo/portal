@@ -1,10 +1,12 @@
 {% extends 'home.html' %}
 {% load static %}
 {% load padegi_tags %}
+{% load category_tags %}
 
 
 {% block left %}
     <div class="bg-all">
+    {% menu_categories %}
 {% endblock left %}
 
 		{% block content %}
