@@ -1,7 +1,7 @@
 {% extends 'home_profile.html' %}
 {% load static %}
 {% load padegi_tags %}
-
+{% block vue %}<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>{% endblock %}
 
 {% block content %}
 <div class="content-r">
@@ -65,63 +65,60 @@
 
 
 
-<div class="chat-columns">
+<div class="chat-columns" id="app">
     <div class="chat-columns-interesnenko">
         <span>Интересные предложения</span>
+{#        <span v-bind:data-avatar="'{{ user.profile.avatar.url }}'"></span>#}
         {% for offer in order.offers.all %}
-        {% if offer.status != 'reject' %}
-        <div class="chat-block">
-            <a class="chat-hide" data-roomchat="{{offer.roomchat.id}}" href="javascript:;"></a>
-            {# <input type="button" id="test" value="{{offer.roomchat.id}}" >         onclick="getGO()"#}
-            <div class="chat-header">
-                <div class="chat-ava" style="background-image: url({{offer.seller.profile.avatar.url}});"></div>
-                <div class="chat-info">
-                    <div class="chat-title">{{ offer.name }}</div>
-                    <div class="chat-price">Указанная стоимость<span>{{offer.price_min}}руб</span>
-                        <div>
-                            <form action="{% url 'offer_list' offer.id %}" method="post">
-                                {% csrf_token %}
-                                {{ form }}
-                                <button class="otkl-zapros" name="reject" type="submit">Отклонить</button>
-                                {% if offer.status != 'approve' and count_approve < 2 %}
-                                <button class="odobr-zapros" name="approve" type="submit">Одобрить</button>
-                                {% endif %}
-                            </form>
+            {% if offer.status != 'reject' %}
+                <div class="chat-block">
+                    <a id="ch-{{offer.roomchat.id}}" class="chat-hide" v-bind:data-roomchat="{{offer.roomchat.id}}" href="javascript:;"
+                    v-on:click="showChat('{{ offer.roomchat.id }}')"
+                    ></a>
+                    {# <input type="button" id="test" value="{{offer.roomchat.id}}" >         onclick="getGO()"#}
+                    <div class="chat-header">
+                        <div class="chat-ava" style="background-image: url({{offer.seller.profile.avatar.url}});"></div>
+                        <div class="chat-info">
+                            <div class="chat-title">{{ offer.name }}</div>
+                            <div class="chat-price">Указанная стоимость<span>{{offer.price_min}}руб</span>
+                                <div>
+                                    <form action="{% url 'offer_list' offer.id %}" method="post">
+                                        {% csrf_token %}
+                                        {{ form }}
+                                        <button class="otkl-zapros" name="reject" type="submit">Отклонить</button>
+                                        {% if offer.status != 'approve' and count_approve < 2 %}
+                                        <button class="odobr-zapros" name="approve" type="submit">Одобрить</button>
+                                        {% endif %}
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="chat-precontent" style="display: none;">
-                <div class="chat-content">
-                    {% for chat in chat_message %}
+                    <div class="chat-precontent" style="display: none;">
+                        <div class="chat-content">
 
-                        {% if user == chat.user %}
-                        <div class="seller-msg">
-                            <div class="msg-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
-                            <div class="msg-text">{{ chat.message }}</div>
-                        </div>
-                        {% else %}
-                        <div class="client-msg">
-                            <div class="msg-ava" style="background-image: url({{ chat.user.profile.avatar.url }});"></div>
-                            <div class="msg-text">{{ chat.message }}</div>
-                        </div>
-                        {% endif %}
+                                <div v-for="chat in chat_message" :key="chat.id"
+                                    :class="chat.user === user ? 'seller-msg' : 'client-msg' ">
+                                    <div v-if="chat.user === user"
+                                         class="msg-ava" :style="{'background-image': 'url('+avatar+')'}"></div>
+                                    <div v-else class="msg-ava" v-bind:style="{'background-image': 'url(/media/'+chat.user__profile__avatar+')'}"></div>
+                                    <div class="msg-text"><% chat.message %></div>
+                                </div>
 
-                    {% endfor %}
+                        </div>
+                    </div>
+                    <form action="" class="chat-form chat-corr1" style="display: none;">
+                        <textarea v-model="message" name="" id="" placeholder="Введите текст"></textarea>
+                        <label for="chat-file"></label>
+                        <input type="file" name="" id="chat-file">
+                        <input type="button" value="Отправить" v-on:click="send()">
+                    </form>
+{#                    <textarea id="chat-log-{{ offer.roomchat.id }}"></textarea><br>#}
+{#                    <input id="chat-message-input-{{ offer.roomchat.id }}" type="text" size="50"><br>#}
+{#                    <input id="chat-message-submit-{{ offer.roomchat.id }}" type="button" value="Отправить">#}
                 </div>
-            </div>
-            <form action="" class="chat-form chat-corr1" style="display: none;">
-                <textarea name="" id="" placeholder="Введите текст"></textarea>
-                <label for="chat-file"></label>
-                <input type="file" name="" id="chat-file">
-                <input type="button" value="Отправить">
-            </form>
-            <textarea id="chat-log"></textarea><br>
-            <input id="chat-message-input" type="text" size="50"><br>
-            <input id="chat-message-submit" type="button" value="Отправить">
-        </div>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="chat-columns-neinteresnenko">
@@ -193,70 +190,132 @@
     <script>
 
 $(document).ready(function() {
-    $('.chat-hide').on('click', f_acc);
+    {#$('.chat-hide').on('click', f_acc);#}
     //регистрация функции-обработчика клика на кнопку гамбургера
 });
 
-function f_acc() {
+{#function f_acc() {#}
     //start Работа гамбургера
-    $('.chat-hide').not(this).removeClass('chat-showed');
-    $('.chat-block').not((this).closest('.chat-block')).find('.chat-header').removeClass('chat-showed');
-    $('.chat-block').not((this).closest('.chat-block')).find('.chat-header').removeClass('chat-showed-h');
-    $('.chat-block').not((this).closest('.chat-block')).find('.chat-precontent').slideUp(300);
-    $('.chat-block').not((this).closest('.chat-block')).find(".chat-form").slideUp(300);
-    $(this).toggleClass('chat-showed');
-	$(this).closest('.chat-block').find('.chat-header').toggleClass('chat-showed-h');
-	$(this).closest('.chat-block').find('.chat-precontent').slideToggle(300);
-    $(this).closest('.chat-block').find(".chat-form").slideToggle(300);
+    {#$('.chat-hide').not(this).removeClass('chat-showed');#}
+    {#$('.chat-block').not((this).closest('.chat-block')).find('.chat-header').removeClass('chat-showed');#}
+    {#$('.chat-block').not((this).closest('.chat-block')).find('.chat-header').removeClass('chat-showed-h');#}
+    {#$('.chat-block').not((this).closest('.chat-block')).find('.chat-precontent').slideUp(300);#}
+    {#$('.chat-block').not((this).closest('.chat-block')).find(".chat-form").slideUp(300);#}
+    {#$(this).toggleClass('chat-showed');#}
+	{#$(this).closest('.chat-block').find('.chat-header').toggleClass('chat-showed-h');#}
+	{#$(this).closest('.chat-block').find('.chat-precontent').slideToggle(300);#}
+    {#$(this).closest('.chat-block').find(".chat-form").slideToggle(300);#}
     //end
+        let app = new Vue({
+            el: "#app",
+            delimiters: ["<%", "%>"],
+            data() {
+                return {
+                    chat_message: [],
+                    user: {{ user.id }},
+                    avatar: '{{ user.profile.avatar.url}}',
+                    valueid: '',
+                    showChatId: '',
+                    chatSocket: '',
+                    message: '',
+                }
+            },
+            created() {
+
+            },
+            methods: {
+                showChat(id) {
+                    $('.chat-hide').not($('#ch-'+id)).removeClass('chat-showed');
+                    $('.chat-block').not($('#ch-'+id).closest('.chat-block')).find('.chat-header').removeClass('chat-showed');
+                    $('.chat-block').not($('#ch-'+id).closest('.chat-block')).find('.chat-header').removeClass('chat-showed-h');
+                    $('.chat-block').not($('#ch-'+id).closest('.chat-block')).find('.chat-precontent').slideUp(300);
+                    $('.chat-block').not($('#ch-'+id).closest('.chat-block')).find(".chat-form").slideUp(300);
+                    $('#ch-'+id).toggleClass('chat-showed');
+                    $('#ch-'+id).closest('.chat-block').find('.chat-header').toggleClass('chat-showed-h');
+                    $('#ch-'+id).closest('.chat-block').find('.chat-precontent').slideToggle(300);
+                    $('#ch-'+id).closest('.chat-block').find(".chat-form").slideToggle(300);
+                    this.showChatId = id
+                    this.openChat()
+                },
+                openChat() {
+                    $.ajax({
+                        url: 'http://127.0.0.1:8000/chat_mess/'+ this.showChatId,
+                        type: 'GET',
+                        success: (response) => {
+                            this.chat_message = response.chat_message
+                        }
+                    })
+                    this.connect()
+                },
+                connect() {
+                    //в отладчике браузера у меня тут проблема кстати
+                    this.chatSocket = new WebSocket(
+                        'ws://'
+                        + window.location.host
+                        + '/ws/chat/'
+                        + this.showChatId
+                        + '/'
+                    );
+                    this.chatSocket.onopen = () => {
+                        this.chatSocket.onmessage = ({data}) => {
+                            this.chat_message.push(JSON.parse(data));
+                            //console.log((data))
+                        };
+                    }
+                },
+                send() {
+                    this.chatSocket.send(JSON.stringify({
+                        'message': this.message,
+                        'user': this.user
+                    }));
+                    this.message = '';
+                },
+            }
+        })
+    {#var user = $(this).data("user")#}
+    {#var avatar = $(this).data("avatar")#}
+    {#var valueid = "";//очищаем заранее id чата#}
     
-    var valueid = "";//очищаем заранее id чата
-    
-    if ($(this).hasClass('chat-showed')){//если чат открылся, ну мало ли
-        valueid = $(this).data("roomchat");//получаем id чата
-        console.log(valueid);
+    {#if ($(this).hasClass('chat-showed')){//если чат открылся, ну мало ли#}
+    {#    valueid = $(this).data("roomchat");//получаем id чата#}
+    {#    console.log(valueid);#}
 
         //const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
-        //в отладчике браузера у меня тут проблема кстати
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + valueid
-            + '/'
-        );
 
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            //console.log((data.message))
-            //document.getElementById('#chat-log').innerHTML = (data.message);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-            console.log((data.message))
-        };
 
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
+        {#chatSocket.onmessage = function(e) {#}
+        {#    const data = JSON.parse(e.data);#}
+        {#    //console.log((data.message))#}
+        {#    //document.getElementById('#chat-log').innerHTML = (data.message);#}
+        {#    document.querySelector(`#chat-log-${valueid}`).value += (data.message + '\n');#}
+        {#    console.log((data.message))#}
+        {#};#}
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
+        {#chatSocket.onclose = function(e) {#}
+        {#    console.error('Chat socket closed unexpectedly');#}
+        {#};#}
+        {##}
+        {#document.querySelector(`#chat-message-input-${valueid}`).focus();#}
+        {#document.querySelector(`#chat-message-input-${valueid}`).onkeyup = function(e) {#}
+        {#    if (e.keyCode === 13) {  // enter, return#}
+        {#        document.querySelector(`#chat-message-submit-${valueid}`).click();#}
+        {#    }#}
+        {#};#}
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message,
-                'user': {{ user.id }}
-            }));
-            messageInputDom.value = '';
-        };
-    }
-    }
+        {#document.querySelector(`#chat-message-submit-${valueid}`).onclick = function(e) {#}
+        {#    const messageInputDom = document.querySelector(`#chat-message-input-${valueid}`);#}
+        {#    const message = messageInputDom.value;#}
+        {#    chatSocket.send(JSON.stringify({#}
+        {#        'message': message,#}
+        {#        'user': {{ user.id }}#}
+        {#    }));#}
+        {#    messageInputDom.value = '';#}
+        {#};#}
+    {#}#}
+
+
+    {#}#}
     </script>
 
 {% endblock content %}

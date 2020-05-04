@@ -1,6 +1,7 @@
 from datetime import datetime, timezone, date, timedelta
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -8,6 +9,7 @@ from django.views.generic import View, ListView, CreateView, DetailView, UpdateV
 
 from chat.models import ChatMessage, RoomChat
 from service.geoip.core import location_geoip
+from user.models import Profile
 from .models import Order, Category, Offer
 from .forms import OrderForm, OfferForm, InactiveFilterForm
 
@@ -118,6 +120,16 @@ class ListOfferView(CalculateProfile, LoginRequiredMixin, DetailView):
                 offer.status = 'approve'
             offer.save()
         return redirect(url)
+
+
+class GetChatMessageView(View):
+    """"""
+    def get(self, request, pk):
+        messages = ChatMessage.objects.filter(room_id=pk).select_related("user__profile__avatar").values(
+            "id", "user", "user__profile__avatar", "message", "timestamp"
+        )
+        chat = list(messages)
+        return JsonResponse({"chat_message": chat}, safe=False)
 
 
 class MakeAnOfferView(DetailView):

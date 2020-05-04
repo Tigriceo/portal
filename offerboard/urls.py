@@ -15,4 +15,5 @@ urlpatterns = [
 
     path("category/<str:slug>/", views.CategoryDetailView.as_view(), name="category"),
 
+    path("chat_mess/<int:pk>/", views.GetChatMessageView.as_view())
 ]
