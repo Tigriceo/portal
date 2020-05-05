@@ -14,10 +14,11 @@
 		</div>
 		<form action="" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
-				<a href="#" class="addpage-img">
-				<img src="{% static 'img/add-photo-blue.svg' %}" alt=""><br>
-				<div>Добавить фото{{form.photo}}</div>
-				</a>
+                <a href="javascript:;" class="addpage-img" style="background-image:none;">
+                    <img src="{% static 'img/add-photo-blue.svg' %}" alt=""><br>
+                    <div>Добавить фото</div>
+                    <input type="file" name="photo">
+                </a>
 
 					<label>Заголовок объявления</label>
 					<input type="text" placeholder="Введите заголовок" name="name">
