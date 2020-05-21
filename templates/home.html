@@ -23,7 +23,12 @@
 <header>
 	<div class="const">
 		<div class="logo-top"><a href="{% url 'home' %}"><img src="{% static 'img/iwtb-logo.png' %}" alt="Я хочу купить"></a></div>
-		<div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>Москва{{ city }}</span> <a href="#">изменить</a></div></div>
+            <div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>Москва{{ city }}</span>
+                <a href="#">изменить</a>
+                <input type="text" placeholder="Введите город">
+                <input type="submit" value="Выбрать">
+            </div>
+        </div>
 		<div class="header-r">
 			<div class="profile-block">
 				{% if user.is_authenticated %}
@@ -92,6 +97,7 @@
                             {% else %}
                                 <span class="lb-af-price">актуально {{ order.date_validity|delta }}</span>
                             {% endif %}
+                            <div class="tovar-offer">откликов - {{ order.offers.count }}</div>
                         </a>
                     </div>
                     {% endfor %}
@@ -115,9 +121,9 @@
 				<input type="text" name="username"  value="8" maxlength="11" autofocus="autofocus" required id="id_username">
 				<input type="button" onclick="getPass()" id="btn" value="Получить пароль">
 				<input type="password" name="password" placeholder="Пароль"  id="id_password" disabled>
-				<input id="check1" type="checkbox" value="Yes">
+				<input id="check1" type="checkbox" value="Yes" onchange="document.getElementById('submit').disabled = !this.checked;">
 				<label for="check1">Согласие на <a href="#">обработку персональных данных</a></label>
-				<input type="submit" value="Войти" class="but-login">
+				<input type="submit" disabled="disabled" id="submit" value="Войти" class="but-login">
             </form>
 		</div>
 	</div>

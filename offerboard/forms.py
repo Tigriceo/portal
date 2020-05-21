@@ -7,7 +7,7 @@ class OrderForm(forms.ModelForm):
     """Создание заявки"""
     class Meta:
         model = Order
-        fields = ['photo', 'name', "description", 'price_min', 'price_max', 'date_validity', 'payment_method']
+        fields = ['photo', 'name', "description", 'price_min', 'price_max', 'date_validity', 'payment_method', 'city']
 
 
 class OfferForm(forms.ModelForm):

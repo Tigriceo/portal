@@ -34,3 +34,16 @@ function getPass() {
 
 // Проверяем ввод номера телефона
 document.querySelector("input[name='username']").oninput = e => e.target.value = e.target.value.replace(/\D/g, '');
+
+// отображение миниатюры при добавлении фотографии
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#photo').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}

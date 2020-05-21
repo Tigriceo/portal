@@ -3,6 +3,8 @@ from django.db import models
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 
+from offerboard.gen_slug import gen_slug
+
 
 class AbstractField(models.Model):
     """Общие - дополнительные поля"""
@@ -60,12 +62,19 @@ class Order(AbstractDeal):
     category = models.ManyToManyField(Category, verbose_name="Категории")
     payment_method = models.CharField('Способ оплаты', max_length=50, choices=PAYMENT_METHOD_CHOICES, default='cash')
     buyer = models.ForeignKey(User, verbose_name="Покупатель", on_delete=models.CASCADE)
+    city = models.CharField("Город", max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse("order", kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):
+        # при создании заявки в шаблоне создаем slug
+        if not self.id:
+            self.slug = gen_slug(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Заявка - объявление"

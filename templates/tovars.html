@@ -29,7 +29,7 @@
 
 
 					<form action="">
-						<input type="text" placeholder="{{search}}">
+						<input type="text" placeholder="{% if not search %}Добавить запрос{% else %}{{search}}{% endif %}">
 						<input type="button" value="Добавить запрос">
 					</form>
 					</a>
@@ -42,7 +42,7 @@
 						</div>
 
 					<form action="">
-						<input type="text" placeholder="{{search}}">
+						<input type="text" placeholder="{% if not search %}Добавить запрос{% else %}{{search}}{% endif %}">
 						<input type="button" value="Добавить запрос">
 					</form>
 					</a>
@@ -59,10 +59,7 @@
 						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});"></div>
 						<div class="tovar-info">
 							<h2>{{ advert.name }}</h2>
-							Короткое описание товара Короткое описание
-							товара Короткое описание товара Короткое
-							описание товара Короткое описание товара
-							Короткое описание товара
+                            {{ advert.description|truncatechars:130 }}
 						</div>
 						<div class="tovar-foot">
 							<div class="tovar-price">
@@ -79,7 +76,9 @@
 								{% endif %}
 							</div>
 						</div>
+                        {% if advert.buyer != user %}
 						<a href="{{ advert.get_absolute_url }}" class="discuss">Сделать предложение</a>
+                        {% endif %}
 					</div>
 					{% endfor %}
 				</div>

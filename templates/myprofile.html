@@ -5,53 +5,44 @@
 			{% block content %}
 			<div class="content-r">
 				<h1><a href="javascript:;" class="cat-menu-link profile-corr"></a>Мой профиль</h1>
-				<div class="profile-flex">
+                <form action="{% url 'update' user.profile.pk %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="profile-flex">
+                        <a href="#" class="profile-photo">
+                            <img id="photo" src="{{ user.profile.avatar.url }}" alt=""><br>
+                            <input type="file" onchange="readURL(this);" name="avatar" accept="image/*">
+                            <input type="submit" value="{% if not user.profile.avatar.url %} Добавить {% else %} Изменить {% endif %}">
+                        </a>
+                        <div class="profile-info">
+                            <div class="profile-info-row">
+                                <div>Телефон:</div>
+                                    <div>{{user.profile.phone_number}}</div>
+    {#									<div><input type="submit" value="Изменить"></div>#}
+                            </div>
+                            <div class="profile-info-row">
+                                <div>Имя:</div>
+                                    <div><input type="text" placeholder="Имя" name="first_name" value="{{ user.first_name }}"></div>
+                                    <div><input type="submit" value="{% if not user.first_name %} Добавить {% else %} Изменить {% endif %}"></div>
+                            </div>
 
-					<a href="#" class="profile-photo">
-						<img src="{{ user.profile.avatar.url }}" alt=""><br>
-						{% if user.profile.avatar.url %}
-						<div>Изменить фото</div>
-						{% else %}
-						<div>Добавить фото</div>
-						{% endif %}
-					</a>
+                            <div class="profile-info-row">
+                                <div>Описание:</div>
+                                <div class="col-2"><textarea  placeholder="Описание" name="description" >{{user.profile.description}}</textarea></div>
+                                    <div><input type="submit" value="{% if not user.profile.description %} Добавить {% else %} Изменить {% endif %}"></div>
+                            </div>
 
-					<div class="profile-info">
-						<form action="" method="post" enctype="multipart/form-data">
-							{% csrf_token %}
-							<div class="profile-info-row">
-								<div>Имя:</div>
-									<div><input type="text" placeholder="{{ user.first_name }}" name="name"></div>
-									<div><input type="submit" value="Изменить"></div>
-							</div>
-
-							<div class="profile-info-row">
-								<div>Описание:</div>
-									<div class="col-2">{{form.description}}</div>
-									<div><input type="submit" value="Изменить"></div>
-							</div>
-
-							<div class="profile-info-row">
-								<div>Почта:</div>
-									<div><input type="text" placeholder="{{ user.email }}" name="name"></div>
-									<div><input type="submit" value="Добавить"></div>
-							</div>
-{#							<div class="profile-info-row">#}
-{#								<div>Пароль:</div>#}
-{#									<div>12345</div>#}
-{#									<div><a href="#">Изменить</a></div>#}
-{#							</div>#}
-							<div class="profile-info-row">
-								<div>Телефон:</div>
-									<div>{{form.phone_number}}</div>
-									<div><input type="submit" value="Изменить"></div>
-							</div>
-						</form>
-					</div>
-				</div>
+                            <div class="profile-info-row">
+                                <div>Почта:</div>
+                                    <div><input type="text" placeholder="email" name="email" value="{{ user.email }}"></div>
+                                    <div><input type="submit" value="{% if not user.email %} Добавить {% else %} Изменить {% endif %}"></div>
+                            </div>
+                        </div>
+				    </div>
+                </form>
 			</div>
 		</div>
 	</div>
+
 {% endblock content %}
 
 

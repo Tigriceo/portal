@@ -2,6 +2,12 @@
         <div class="menu-bg">
 			<a href="javascript:;" class="menu-close"></a>
             <div class="city-select">
+
+                <form action="" method="get">
+                    <input name="q_city" type="text" placeholder="Поиск....." >
+                </form>
+
+
 			<select data-placeholder="Выберите город">
 				<option value=""></option>
 				<option value="Все города">Все города</option>
@@ -17,13 +23,14 @@
 				<option value="Воронеж">Воронеж</option>
 				<option value="Иваново">Иваново</option>
 			</select>
+
 			<div class="city-selected-block">Вы выбрали город: <span id="city-selected">Москва</span></div>
 		</div>
 			<span class="menu-title">Категории</span>
 			<ul class="menu-ul">
 				{% recursetree category %}
                     <li>
-                        <a href="{% url 'category' node.slug %}">{{ node.name }} <span>{{ node.get_descendant_count }}</span></a>
+                        <a class="a-cat" href="{% url 'category' node.slug %}">{{ node.name }} <span>{{ node.get_descendant_count }}</span></a>
                         {% if not node.is_leaf_node %}
                             <ul>
                                 {{ children }}
@@ -33,3 +40,13 @@
 				{% endrecursetree %}
             </ul>
         </div>
+
+{#<script>#}
+{#    let a = document.querySelector('.a-cat')#}
+{#    console.log(a)#}
+{#    a.addEventListener('click', function(e) {#}
+{#        e.preventDefault()#}
+{#        console.log(this.href)#}
+{#    })#}
+{##}
+{#</script>#}

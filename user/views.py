@@ -12,7 +12,7 @@ from django.contrib.auth.hashers import make_password
 
 from service.smsru.core import send_sms_ru
 from .models import Profile
-from .forms import ProfileUpdateForm
+from .forms import ProfileUpdateForm, UserCreateForm
 from offerboard.views import CalculateProfile
 
 
@@ -38,21 +38,58 @@ class RegistrationView(View):
         return HttpResponse(status=201)
 
 
-class ProfileView(LoginRequiredMixin, CalculateProfile, UpdateView):
+class ProfileView(LoginRequiredMixin, CalculateProfile, DetailView):
     """Профиль пользователя"""
-    form_class = ProfileUpdateForm
-    template_name = 'myprofile.html'
-    success_url = reverse_lazy('profile')
+    model = Profile
+    template_name = "myprofile.html"
 
     def get_object(self, queryset=None):
         obj = get_object_or_404(Profile, user=self.request.user)
         return obj
 
-    # def get_object(self, queryset=None):
-    #     return self.request.user.profile
+    # def get_context_data(self, **kwargs):
+    #     context = super(ProfileView, self).get_context_data()
+    #     context['profile'] = Profile.objects.filter(
+    #         user=self.request.user)
+    #     return context
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+# class ProfileView(LoginRequiredMixin, CalculateProfile, UpdateView):
+#     """Профиль пользователя"""
+#     form_class = ProfileUpdateForm
+#     template_name = 'myprofile.html'
+#     success_url = reverse_lazy('profile')
+#
+#     def get_object(self, queryset=None):
+#         obj = get_object_or_404(Profile, user=self.request.user)
+#         return obj
+#
+#     # def get_object(self, queryset=None):
+#     #     return self.request.user.profile
+#
+#     def form_valid(self, form):
+#         return super().form_valid(form)
+
+
+class UpdateProfileView(LoginRequiredMixin, View):
+    """Изменить профиль пользователя"""
+    def post(self, request, pk):
+        if request.method == "POST":
+            form_one = ProfileUpdateForm(self.request.POST, self.request.FILES, instance=self.request.user.profile)
+            form_two = UserCreateForm(self.request.POST, instance=self.request.user)
+
+            if form_one.is_valid() and form_two.is_valid():
+                form_one.save()
+                form_two.save()
+                return redirect('profile')
+        else:
+            form_one = ProfileUpdateForm(self.request.POST, instance=self.request.user.profile)
+            form_two = UserCreateForm(self.request.POST, instance=self.request.user)
+
+        data = {
+            'form': form_one,
+            'form2': form_two,
+        }
+        return render(request, 'myprofile.html', data)
 
 
 class LogOutView(View):

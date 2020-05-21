@@ -21,7 +21,13 @@ class CategoryDetailView(ListView):
     template_name = 'tovars.html'
 
     def get_queryset(self):
+        # if self.request.GET.get('q_city'):
+        #     query = self.request.GET.get('q_city')
+        #     print(query).filter(city=query)
         order_list = Order.objects.filter(category__slug=self.kwargs.get('slug'))
+        # cat = Category.objects.get(slug=self.kwargs.get('slug'))
+        # for i in cat.get_ancestors(include_self=True):
+        #     print(i.name, i.get_absolute_url())
         return order_list
 
 

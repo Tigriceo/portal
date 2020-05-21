@@ -15,9 +15,9 @@
 		<form action="" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
                 <a href="javascript:;" class="addpage-img" style="background-image:none;">
-                    <img src="{% static 'img/add-photo-blue.svg' %}" alt=""><br>
+                    <img id="photo" src="{% static 'img/add-photo-blue.svg' %}" alt=""><br>
                     <div>Добавить фото</div>
-                    <input type="file" name="photo">
+                    <input type="file" name="photo" onchange="readURL(this);" accept="image/*">
                 </a>
 
 					<label>Заголовок объявления</label>
@@ -29,9 +29,11 @@
 					<textarea name="description" placeholder="Дополнительная информация"></textarea>
 					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
 
-<!--					<div class="addform-sep"></div>-->
-<!--					<div class="addform-city">Мы определили ваш город: <span>Москва</span> <a href="">Изменить</a></div>-->
-<!--					<a href="#" class="addpage-info"><img src="img/info.svg" alt="">Что это значит?</a>-->
+					<div class="addform-sep"></div>
+					<div class="addform-city">Мы определили ваш город: <span>Москва</span> <a href="">Изменить</a>
+                    <input type="text" placeholder="Введите город" name="city">
+                    </div>
+					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Что это значит?</a>
 
 
 					<div class="addform-sep"></div>
@@ -54,7 +56,7 @@
 					<div class="addform-sep"></div>
 
 					<label>Покупка актуальна до</label>
-					<input type="date" placeholder="Введите заголовок" name="date_validity"> <a href="" class="addform-todaybut">Товар нужен сегодня</a>
+					<input type="date" id="datetimepicker" placeholder="Введите заголовок" name="date_validity"> <a href="" class="addform-todaybut">Товар нужен сегодня</a>
 					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Что это значит?</a>
 <!--					<div class="addform-sep"></div>-->
 <!--					<input id="check01" type="checkbox" value="Yes">-->
@@ -65,9 +67,9 @@
 <!--					<label for="check02" class="addform-label">Принимать предложения из других регионов</a></label>-->
 <!--					<a href="#" class="addpage-info"><img src="img/info.svg" alt="">Что это значит?</a>-->
 <!--					<div class="addform-sep"></div>-->
-<!--					<input id="check03" type="checkbox" value="Yes">-->
-<!--					<label for="check03" class="addform-label">Нужна ли Вам доставка в город Москва</a></label>-->
-<!--					<a href="#" class="addpage-info"><img src="img/info.svg" alt="">Что это значит?</a><a href="#" class="addpage-changecity">Изменить город доставки</a>-->
+{#					<input id="check03" type="checkbox" value="Yes">#}
+{#					<label for="check03" class="addform-label">Нужна ли Вам доставка в город Москва</a></label>#}
+{#					<a href="#" class="addpage-info"><img src="img/info.svg" alt="">Что это значит?</a><a href="#" class="addpage-changecity">Изменить город доставки</a>#}
 <!--					<div class="addform-sep"></div>-->
 <!--					<label>Дополнительные категории показа запроса</label>-->
 <!--					<div class="addform-subcat">-->
@@ -95,6 +97,4 @@
 
     </div>
 </div>
-
-
 {% endblock content %}

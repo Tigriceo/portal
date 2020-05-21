@@ -26,6 +26,7 @@ class ChatMessage(models.Model):
     class Meta:
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
+        ordering = ('timestamp',)
 
 # Room
 # - user1
