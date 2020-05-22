@@ -14,6 +14,7 @@
 		<title>Главная страница</title>
 		<link rel="stylesheet" href="{% static 'style.css' %}">
 		<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+		<link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
         {% block vue %} {% endblock vue %}
 	</head>
 <body class="page page_fix">
@@ -24,9 +25,7 @@
 	<div class="const">
 		<div class="logo-top"><a href="{% url 'home' %}"><img src="{% static 'img/iwtb-logo.png' %}" alt="Я хочу купить"></a></div>
             <div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>Москва{{ city }}</span>
-                <a href="#">изменить</a>
-                <input type="text" placeholder="Введите город">
-                <input type="submit" value="Выбрать">
+                <a href="javascript:;" onclick="$('#cityselect').arcticmodal()">изменить</a>
             </div>
         </div>
 		<div class="header-r">
@@ -47,17 +46,17 @@
 					</div>
 				{% endif %}
 			</div>
-{#			<div class="lang-block">#}
-{#				<a href="#" class="russian-lang"><img src="{% static 'img/rus-lang.svg' %}" alt="">Русский</a>#}
-{#			</div>#}
-        <div class="language">
-        <img src="{% static 'img/lang__ru.png' %}" alt="ru" data-google-lang="ru" class="language__img">
-        <img src="{% static 'img/lang__en.png' %}" alt="en" data-google-lang="en" class="language__img">
-        <img src="{% static 'img/lang__de.png' %}" alt="de" data-google-lang="de" class="language__img">
-        <img src="{% static 'img/lang__fr.png' %}" alt="fr" data-google-lang="fr" class="language__img">
-        <img src="{% static 'img/lang__zh.png' %}" alt="zh-TW" data-google-lang="zh-TW" class="language__img">
-        <img src="{% static 'img/lang__ar.png' %}" alt="ar" data-google-lang="ar" class="language__img">
-    </div>
+<div class="lang-block">
+	<div class="language">
+	<img src="{% static 'img/lang__ru.png' %}" alt="ru" data-google-lang="ru" class="language__img">
+	<img src="{% static 'img/lang__en.png' %}" alt="en" data-google-lang="en" class="language__img">
+	<img src="{% static 'img/lang__de.png' %}" alt="de" data-google-lang="de" class="language__img">
+	<img src="{% static 'img/lang__fr.png' %}" alt="fr" data-google-lang="fr" class="language__img">
+	<img src="{% static 'img/lang__zh.png' %}" alt="zh-TW" data-google-lang="zh-TW" class="language__img">
+	<img src="{% static 'img/lang__ar.png' %}" alt="ar" data-google-lang="ar" class="language__img">
+	</div>
+</div>
+
 		</div>
 	</div>
 </header>
@@ -88,16 +87,18 @@
                     {% for order in order_list %}
                     <div class="last-block">
                         <a href="{{ order.get_absolute_url }}">
-                            <img src="{{ order.photo.url }}" alt="">
+							<div class="tovar-img" style="background-image: url({{ order.photo.url }});"></div>
                             <span class="lb-name">{{ order.name }}</span>
                             <span class="lb-be-price">желаемая стоимость</span>
                             <div class="lb-price">{{ order.price_min }} - {{ order.price_max }} руб</div>
-                            {% if order.date_validity|delta == 'quickly' %}
+							<div class="tovar-offer">
+								откликов ({{ order.offers.count }}) <br>
+								{% if order.date_validity|delta == 'quickly' %}
                                 <span class="lb-af-price">Срочно</span>
                             {% else %}
                                 <span class="lb-af-price">актуально {{ order.date_validity|delta }}</span>
                             {% endif %}
-                            <div class="tovar-offer">откликов - {{ order.offers.count }}</div>
+							</div>
                         </a>
                     </div>
                     {% endfor %}
@@ -108,7 +109,7 @@
 
 {% endblock content %}
 
-<!--Modal-->
+<!--Modal Выбора города-->
 	<div style="display: none;">
 		<div class="box-modal" id="regform">
 			<div class="box-modal_close arcticmodal-close"></div>
@@ -118,12 +119,26 @@
 				{% if search %}
            			<input type="hidden" name="next" value="{% url 'add_order' %}"/>
 				{% endif %}
-				<input type="text" name="username"  value="8" maxlength="11" autofocus="autofocus" required id="id_username">
+				<div class="form-group">
+				<input type="tel" name="username" required id="id_username">
+			</div>
 				<input type="button" onclick="getPass()" id="btn" value="Получить пароль">
 				<input type="password" name="password" placeholder="Пароль"  id="id_password" disabled>
-				<input id="check1" type="checkbox" value="Yes" onchange="document.getElementById('submit').disabled = !this.checked;">
+				<input required id="check1" type="checkbox" value="Yes">
 				<label for="check1">Согласие на <a href="#">обработку персональных данных</a></label>
-				<input type="submit" disabled="disabled" id="submit" value="Войти" class="but-login">
+				<input type="submit" id="submit" value="Войти" class="but-login"><span id="timer"></span>
+            </form>
+		</div>
+	</div>
+
+	<!--Modal-->
+	<div style="display: none;">
+		<div class="box-modal" id="cityselect">
+			<div class="box-modal_close arcticmodal-close"></div>
+			<div class="modal-title">Выберите город</div>
+			<form class="modal-form-login city-corr" method="post" action="" >
+                <input type="text" placeholder="Введите город">
+                <input type="submit" value="Выбрать">
             </form>
 		</div>
 	</div>
@@ -159,7 +174,7 @@
 
 
 <link href="{% static 'chosen.min.css' %}" type="text/css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="{% static 'js/google-translate.js' %}"></script>
 <script src="//translate.google.com/translate_a/element.js?cb=TranslateInit"></script>
@@ -170,13 +185,29 @@
 
 <script type="text/javascript" src="{% static 'js/slick.min.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'slick.css' %}" />
-<script src="{% static 'js/script.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'intlTelInput.min.css' %}" />
 <script src="{% static 'js/chosen.jquery.min.js' %}"></script>
 <script src="{% static 'js/jquery.arcticmodal-0.3.min.js' %}"></script>
+<script src="{% static 'js/intlTelInput-jquery.js' %}"></script>
+<link href="{% static 'datepicker.min.css' %}" rel="stylesheet" type="text/css">
+<script src="{% static 'js/datepicker.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
 
-
-
-
+<script>
+	$(function() {
+$("#id_username").intlTelInput({
+	utilsScript: "{% static 'js/utils.js' %}",
+		preferredCountries: ['ru','ua','by'],
+		autoHideDialCode: false,
+        autoPlaceholder: "aggressive",
+		initialCountry: "ru",
+		nationalMode: false,
+		separateDialCode: true,
+		placeholderNumberType:"MOBILE",
+		localizedCountries:{'ru':'Россия'},
+});
+});
+  </script>
 
 </body>
 </html>

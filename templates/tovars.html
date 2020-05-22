@@ -56,6 +56,7 @@
 					<div class="tovar-block">
 						{% endif %}
 						<div class="tovar-city">Санкт-Петербург</div>
+						<a href="#ссылка_на_страницу_запроса">
 						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});"></div>
 						<div class="tovar-info">
 							<h2>{{ advert.name }}</h2>
@@ -68,16 +69,16 @@
 							</div>
 							<div class="tovar-offer">
 								откликов ({{ advert.offers.count }}) <br>
-
 								{% if advert.date_validity|delta == 'quickly' %}
 								<span class="tovar-actual">Срочно</span>
 								{% else %}
 								<span class="tovar-actual">Актуально {{ advert.date_validity|delta }}</span>
 								{% endif %}
-							</div>
+							</div>	
 						</div>
+						</a>
                         {% if advert.buyer != user %}
-						<a href="{{ advert.get_absolute_url }}" class="discuss">Сделать предложение</a>
+						<a href="{{ advert.get_absolute_url }}" class="link-zap">Сделать предложение</a>
                         {% endif %}
 					</div>
 					{% endfor %}

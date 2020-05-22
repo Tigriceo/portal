@@ -10,7 +10,7 @@
 			<div class="tovars-flex">
 				{% for advert in order_list %}
 					<div class="tovar-block">
-						<div class="tovar-city">Москва</div><br>
+						<div class="tovar-city">Москва</div>
 						<a href="" class="tovar-link"></a>
 						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});">
 							{% for offer in advert.offers.all %}

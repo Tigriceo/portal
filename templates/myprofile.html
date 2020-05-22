@@ -8,11 +8,13 @@
                 <form action="{% url 'update' user.profile.pk %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="profile-flex">
-                        <a href="#" class="profile-photo">
-                            <img id="photo" src="{{ user.profile.avatar.url }}" alt=""><br>
-                            <input type="file" onchange="readURL(this);" name="avatar" accept="image/*">
-                            <input type="submit" value="{% if not user.profile.avatar.url %} Добавить {% else %} Изменить {% endif %}">
+                        <div>
+                        <a href="#" class="profile-photo" style="background-image:url({{ user.profile.avatar.url }});">
+                            <input type="file" onchange="readURL(this);" name="avatar" accept="image/*" style="display:none;">
+                            
                         </a>
+                        <input class="def-but" type="submit" value="{% if not user.profile.avatar.url %} Добавить {% else %} Изменить {% endif %}">
+                        </div>
                         <div class="profile-info">
                             <div class="profile-info-row">
                                 <div>Телефон:</div>

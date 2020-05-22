@@ -22,19 +22,22 @@
 						желаемая стоимость<br>
 						<span>{{ order.price_min }} - {{ order.price_max }}руб</span>
 					</div>
-					<div class="tovar-offer">
-						откликов ({{ order.offers.count }}) <br>
-                        {% if order.date_validity|delta == 'quickly' %}
-                            <span class="tovar-actual">Срочно</span>
-                        {% else %}
-						    <span class="tovar-actual">Актуально {{ order.date_validity|delta }}</span>
-                        {% endif %}
-					</div>
 				</div>
 				<div class="tovar-dopinfo">Нужна доставка в город: <span>Москва</span></div>
 				<div class="tovar-dopinfo">Желаемый способ оплаты: <span>{{ order.get_payment_method_display }}</span></div>
 				<div class="tovar-dopinfo">Принимать предложения от магазинов: <span>Разрешено</span></div>
-				<div class="tovar-dopinfo">Принимать предложения из других регионов: <span>Разрешено</span></div>
+                <div class="tovar-dopinfo">Принимать предложения из других регионов: <span>Разрешено</span></div>
+
+                <div class="tovar-foot">
+                <div class="tovar-offer">
+                    откликов ({{ order.offers.count }}) <br>
+                    {% if order.date_validity|delta == 'quickly' %}
+                        <span class="tovar-actual">Срочно</span>
+                    {% else %}
+                        <span class="tovar-actual">Актуально {{ order.date_validity|delta }}</span>
+                    {% endif %}
+                </div>
+            </div>
 				<a href="#" class="discuss">Пожаловаться на объявление</a>
 			</div>
 		</div>
@@ -49,7 +52,7 @@
                     <input type="file" onchange="readURL(this);" name="photo" accept="image/*">
                 </a>
                 <label>Заголовок предложения</label>
-                <input type="text" placeholder="Заголовок предложения не более 50 символов" name="name">
+                <input type="text" placeholder="Заголовок предложения не более 50 символов" name="name" required>
                 <a href="javascript:;" onclick="$('#instr-1').arcticmodal()" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
 
                 <label>Описание предложения</label>
@@ -59,7 +62,7 @@
                 <div class="addform-sep"></div>
                 <label>Укажите стоимость в рублях</label>
                 <div class="addform-price">
-                    <input type="number" value="0" name="price_min">
+                    <input type="number" value="0" name="price_min" required>
                 </div>
                     <a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
                 {% if user.is_authenticated %}
