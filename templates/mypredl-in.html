@@ -89,7 +89,7 @@
 {#                        </div>#}
 {#                    {{ room_id }}#}
 					</div>
-					<form action="" class="chat-form" style="display: none;">
+					<form action="" class="chat-form">
 						<textarea v-model="message" name="" id="" placeholder="Введите текст"></textarea>
 						<label for="chat-file"></label>
 						<input type="file" name="" id="chat-file">
@@ -104,6 +104,8 @@
 		</div>
 	</div>
     <script>
+//Здесь я так понял, тк чат один, надо ловить ID чата где то в другом месте, а не по кнопке гамбургера
+//Как решим куда тыкнуть нужно что бы передался ID, сделаю
 $(document).ready(function() {
     {#$('.chat-hide').on('click', f_acc);#}
     //регистрация функции-обработчика клика на кнопку гамбургера
