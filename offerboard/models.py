@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-from mptt.models import MPTTModel, TreeForeignKey
+from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
 
 from offerboard.gen_slug import gen_slug
 
@@ -27,6 +27,11 @@ class Category(MPTTModel, AbstractField):
                             blank=True,
                             verbose_name='Родительская категория',
                             related_name="children")
+
+    def items_count(self):
+        """Количество заявок-объявлений в категории"""
+        count = Order.objects.filter(category__slug=self.slug).count()
+        return count
 
     def get_absolute_url(self):
         return reverse("category", kwargs={"slug": self.slug})
@@ -59,7 +64,7 @@ class Order(AbstractDeal):
 
     price_max = models.DecimalField("Максимальная цена", max_digits=8, decimal_places=2, default=0.00)
     date_validity = models.DateTimeField("Актуально до")
-    category = models.ManyToManyField(Category, verbose_name="Категории")
+    category = TreeManyToManyField(Category, verbose_name="Категории")
     payment_method = models.CharField('Способ оплаты', max_length=50, choices=PAYMENT_METHOD_CHOICES, default='cash')
     buyer = models.ForeignKey(User, verbose_name="Покупатель", on_delete=models.CASCADE)
     city = models.CharField("Город", max_length=50, blank=True, null=True)

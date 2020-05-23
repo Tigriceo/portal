@@ -10,7 +10,9 @@
 <div class="bg-all">
 	<div class="const addpage">
 		<div class="bread-cat">
-			<span>электроника</span> <span>портативная</span> <span class="bread-cat-active">плееры</span> 
+            {% for bread in breadcrumb %}
+			    <span>{{ bread }}</span>
+            {% endfor %}
 		</div>
 		<form action="" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
@@ -21,7 +23,7 @@
                 </a>
 
 					<label>Заголовок объявления</label>
-					<input type="text" placeholder="Введите заголовок" name="name">
+					<input type="text" placeholder="Введите заголовок" name="name" value="{{ search }}">
 					<a href="javascript:;" onclick="$('#instr-1').arcticmodal()" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
 
 					<label>Описание объявления</label>
@@ -80,7 +82,13 @@
 <!--					</div>-->
 <!--					<a href="#" class="addpage-info"><img src="img/info.svg" alt="">Что это значит?</a>-->
 <!--					<div class="addform-sep"></div>-->
+                    {% if user.is_authenticated %}
 					<input type="submit" value="Добавить">
+                    {% else %}
+                    <a href="javascript:;" class="addpage-info" onclick="$('#regform').arcticmodal()">
+						<input type="button" value="Добавить">
+					</a>
+                    {% endif %}
 				</form>
 	</div>
 </div>

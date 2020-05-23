@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timezone, date, timedelta
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -21,14 +22,27 @@ class CategoryDetailView(ListView):
     template_name = 'tovars.html'
 
     def get_queryset(self):
-        # if self.request.GET.get('q_city'):
         #     query = self.request.GET.get('q_city')
         #     print(query).filter(city=query)
         order_list = Order.objects.filter(category__slug=self.kwargs.get('slug'))
+        # list = order_list.count()
+        # print(list)
         # cat = Category.objects.get(slug=self.kwargs.get('slug'))
         # for i in cat.get_ancestors(include_self=True):
         #     print(i.name, i.get_absolute_url())
+        # print(order_list, list)
         return order_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(CategoryDetailView, self).get_context_data()
+        cat = Category.objects.get(slug=self.kwargs.get('slug'))
+        bread = []
+        for i in cat.get_ancestors(include_self=True):
+            crumb = i.name, i.get_absolute_url()
+            bread.append(crumb)
+        context['breadcrumb'] = bread
+        print(context['breadcrumb'])
+        return context
 
 
 class OrderListView(View):
@@ -65,6 +79,16 @@ class CreateOrderView(CreateView):
     form_class = OrderForm
     template_name = 'addpage.html'
     success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateOrderView, self).get_context_data()
+        context["search"] = self.request.GET.get("q")
+        string = self.request.GET.get("bread")
+        print(string)
+        result = [element.strip("'[()]") for element in string.split(", ")]
+        # a = result[1::2] если надо будет ссылки на категории
+        context["breadcrumb"] = result[::2]
+        return context
 
     def form_valid(self, form):
         form.instance.buyer = self.request.user

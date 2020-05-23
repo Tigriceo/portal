@@ -10,7 +10,9 @@
 <div class="bg-all">
 	<div class="const addpredl">
 		<div class="addpredl-l">
-            <a href="/" class="back-link">На главную</a>
+          {% for cat in order.category.all %}
+              <a href="{% url 'category' cat.slug %}" class="back-link">{{ cat }}</a>
+            {% endfor %}
 			<div class="tovar-block">
 				<div class="tovar-img" style="background-image: url({{ order.photo.url }});"></div>
 				<div class="tovar-info">

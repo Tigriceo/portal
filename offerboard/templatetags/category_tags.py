@@ -1,6 +1,6 @@
 from django import template
 
-from offerboard.models import Category
+from offerboard.models import Category, Order
 
 register = template.Library()
 
