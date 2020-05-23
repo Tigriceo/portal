@@ -32,11 +32,18 @@ function startTimer(duration) {
 
 window.onload = function () {
     sec  = parseInt(window.localStorage.getItem("seconds"));//Если у тебя будет где нибудь на серваке тикать, можно сюда переменную секунд поставить
-    if (sec != 0){
+    if (sec >= 0){
         startTimer(sec);
     }
 };
 
+$( "#regform" ).submit(function() {
+    let phonecode = $("#id_username").intlTelInput("getSelectedCountryData").dialCode;
+    let username = '+'+phonecode+$("#id_username").val();
+    $("#id_username").val(username);
+    console.log($("#id_username").val());
+    return true;
+  });
 
 // Регистрация и авторизация
 function getPass() {
