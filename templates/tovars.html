@@ -44,6 +44,7 @@
 						</div>
 
 					<form action="{% url 'add_order' %}" method="get">
+                        <input type="hidden" value="{{ breadcrumb }}" name="bread">
 						<input type="text" placeholder="{% if not search %}Добавить запрос{% else %}{{search}}{% endif %}" value="{{search}}" name="q">
 						<input type="submit" value="Добавить запрос">
 					</form>
