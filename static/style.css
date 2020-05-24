@@ -1029,7 +1029,7 @@ ul.menu-ul>li.cat-active>a span {
 	display: block;
 }
 
-.tovar-add form input[type="button"] {
+.tovar-add form input[type="submit"] {
 	background: #003b71;
 	font-size: 14px;
 	text-transform: uppercase;
@@ -1042,7 +1042,7 @@ ul.menu-ul>li.cat-active>a span {
 	transition: 0.3s;
 }
 
-.tovar-add form input[type="button"]:hover {
+.tovar-add form input[type="submit"]:hover {
 	background: #eb3a9a;
 	cursor: pointer;
 }

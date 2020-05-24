@@ -32,7 +32,7 @@
 			<ul class="menu-ul">
 				{% recursetree category %}
                     <li>
-                        <a class="a-cat" href="{% url 'category' node.slug %}?sku=">{{ node.name }} <span>{{ node.items_count }}</span></a>
+                        <a class="a-cat" href="{% url 'category' node.slug %}">{{ node.name }} <span>{{ node.items_count }}</span></a>
 
                         {% if not node.is_leaf_node %}
                             <ul>
