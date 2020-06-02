@@ -86,9 +86,21 @@ function readURL(input) {
         const reader = new FileReader();
 
         reader.onload = function (e) {
+            $('#photo').attr('src', e.target.result);
             $('.profile-photo').css('background-image', 'url(' + e.target.result + ')');
         };
 
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+// подгружаем контент при скроле
+    let infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });

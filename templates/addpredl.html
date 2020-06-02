@@ -58,24 +58,24 @@
                 <a href="javascript:;" onclick="$('#instr-1').arcticmodal()" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
 
                 <label>Описание предложения</label>
-                <textarea name="description" placeholder="Описание характеристик (дополнительная информация)"></textarea>
+                <textarea name="description" placeholder="Описание характеристик (дополнительная информация)" required></textarea>
                 <a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
 
                 <div class="addform-sep"></div>
                 <label>Укажите стоимость в рублях</label>
                 <div class="addform-price">
-                    <input type="number" value="0" name="price_min" required>
+                    <input type="number" name="price_min" min="0" required>
                 </div>
                     <a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
-            {% if order.buyer != user %}
-                {% if user.is_authenticated %}
-                    <input type="submit" value="Сделать предложение">
-                {% else %}
-                    <a href="javascript:;" class="addpage-info" onclick="$('#regform').arcticmodal()">
-						<input type="button" value="Сделать предложение">
-					</a>
+                {% if order.buyer != user %}
+                    {% if user.is_authenticated %}
+                        <input type="submit" value="Сделать предложение">
+                    {% else %}
+                        <a href="javascript:;" class="addpage-info" onclick="$('#regform').arcticmodal()">
+                            <input type="button" value="Сделать предложение">
+                        </a>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
             </form>
         </div>
 	</div>

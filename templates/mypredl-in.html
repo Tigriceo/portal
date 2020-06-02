@@ -130,15 +130,15 @@ $(document).ready(function() {
             },
             methods: {
                 showChat(id) {
-                    $('.chat-hide').not($('#ch-'+id)).removeClass('chat-showed');
-                    $('.chat-block').not($('#ch-'+id).closest('.chat-block')).find('.chat-header').removeClass('chat-showed');
-                    $('.chat-block').not($('#ch-'+id).closest('.chat-block')).find('.chat-header').removeClass('chat-showed-h');
-                    $('.chat-block').not($('#ch-'+id).closest('.chat-block')).find('.chat-precontent').slideUp(300);
-                    $('.chat-block').not($('#ch-'+id).closest('.chat-block')).find(".chat-form").slideUp(300);
-                    $('#ch-'+id).toggleClass('chat-showed');
-                    $('#ch-'+id).closest('.chat-block').find('.chat-header').toggleClass('chat-showed-h');
-                    $('#ch-'+id).closest('.chat-block').find('.chat-precontent').slideToggle(300);
-                    $('#ch-'+id).closest('.chat-block').find(".chat-form").slideToggle(300);
+                    {#$('.chat-hide').not($('#ch-'+id)).removeClass('chat-showed');#}
+                    {#$('.chat-block').not($('#ch-'+id).closest('.chat-block')).find('.chat-header').removeClass('chat-showed');#}
+                    {#$('.chat-block').not($('#ch-'+id).closest('.chat-block')).find('.chat-header').removeClass('chat-showed-h');#}
+                    {#$('.chat-block').not($('#ch-'+id).closest('.chat-block')).find('.chat-precontent').slideUp(300);#}
+                    {#$('.chat-block').not($('#ch-'+id).closest('.chat-block')).find(".chat-form").slideUp(300);#}
+                    {#$('#ch-'+id).toggleClass('chat-showed');#}
+                    {#$('#ch-'+id).closest('.chat-block').find('.chat-header').toggleClass('chat-showed-h');#}
+                    {#$('#ch-'+id).closest('.chat-block').find('.chat-precontent').slideToggle(300);#}
+                    {#$('#ch-'+id).closest('.chat-block').find(".chat-form").slideToggle(300);#}
                     this.showChatId = id
                     this.openChat()
                 },

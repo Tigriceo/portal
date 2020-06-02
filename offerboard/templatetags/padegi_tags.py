@@ -35,4 +35,9 @@ def delta(value):
         return "{} {}".format(padegi(day, "день,дня,дней"), padegi(hour, "час,часа,часов"))
 
 
-
+# @register.simple_tag
+# def tomorrow(format):
+#     tomorrow = (datetime.now() + timedelta(days=1))
+#     print(tomorrow.strftime(format))
+#     return tomorrow.strftime(format)
+# {% tomorrow "%d.%m.%Y" %}

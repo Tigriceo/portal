@@ -1,5 +1,6 @@
 {% extends 'home.html' %}
 {% load static %}
+{% load city_ip_tags %}
 
 
 {% block left %}
@@ -16,6 +17,8 @@
 		</div>
 		<form action="" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
+{#                <input type="hidden" value="{{ bread_ids }}" name="category">#}
+{#        {{ form.category }}#}
                 <a href="javascript:;" class="addpage-img" style="background-image:none;">
                     <img id="photo" src="{% static 'img/add-photo-blue.svg' %}" alt=""><br>
                     <div>Добавить фото</div>
@@ -23,17 +26,17 @@
                 </a>
 
 					<label>Заголовок объявления</label>
-					<input type="text" placeholder="Введите заголовок" name="name" value="{{ search }}">
+					<input type="text" placeholder="Введите заголовок" name="name" value="{{ search }}" required>
 					<a href="javascript:;" onclick="$('#instr-1').arcticmodal()" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
 
 					<label>Описание объявления</label>
 
-					<textarea name="description" placeholder="Дополнительная информация"></textarea>
+					<textarea name="description" placeholder="Дополнительная информация" required></textarea>
 					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
 
 					<div class="addform-sep"></div>
-					<div class="addform-city">Мы определили ваш город: <span>Москва</span> <a href="">Изменить</a>
-                    <input type="text" placeholder="Введите город" name="city">
+					<div class="addform-city">Мы определили ваш город: <span>{# location_geoip #}</span> <!--<a href="">Изменить</a>--><!--{# location_geoip #} определение города вставить в <span></span>-->
+                    <input type="text" id="city" placeholder="Введите город" name="city">
                     </div>
 					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Что это значит?</a>
 
@@ -42,7 +45,7 @@
 					<label>Желаемый диапазон стоимости в рублях</label>
 
 					<div class="addform-price">
-						От <input type="number" value="0" name="price_min"> До <input type="number" value="0" name="price_max">
+						От <input type="number" value="0" min="0" name="price_min" required> До <input type="number" min="0" value="0" name="price_max" required>
 					</div>
 					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Что это значит?</a>
 
@@ -58,9 +61,9 @@
 					<div class="addform-sep"></div>
 
 					<label>Покупка актуальна до</label>
-					<input type="text" id="datetimepicker" readonly class="datepicker-here" name="date_validity" placeholder="дд.мм.гггг"> <a href="javascript:;" class="addform-todaybut">Товар нужен сегодня</a>
+					<input {% if form.date_validity.errors %} style="border: 1px solid red;" {% endif %} type="text" id="datetimepicker" readonly class="datepicker-here" name="date_validity" placeholder="дд.мм.гггг"> <a href="javascript:;" class="addform-todaybut">Товар нужен сегодня</a>
 					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Что это значит?</a>
-<!--					<div class="addform-sep"></div>-->
+{#					<div class="addform-sep"></div>#}
 <!--					<input id="check01" type="checkbox" value="Yes">-->
 <!--					<label for="check01" class="addform-label">Принимать предложения от магазинов</a></label>-->
 <!--					<a href="#" class="addpage-info"><img src="img/info.svg" alt="">Что это значит?</a>-->
@@ -72,16 +75,29 @@
 {#					<input id="check03" type="checkbox" value="Yes">#}
 {#					<label for="check03" class="addform-label">Нужна ли Вам доставка в город Москва</a></label>#}
 {#					<a href="#" class="addpage-info"><img src="img/info.svg" alt="">Что это значит?</a><a href="#" class="addpage-changecity">Изменить город доставки</a>#}
-<!--					<div class="addform-sep"></div>-->
-<!--					<label>Дополнительные категории показа запроса</label>-->
-<!--					<div class="addform-subcat">-->
-<!--						<input id="check04" type="checkbox" value="Yes">-->
-<!--						<label for="check04" class="addform-subcatlabel">Техника</label>-->
-<!--						<input id="check05" type="checkbox" value="Yes">-->
-<!--						<label for="check05" class="addform-subcatlabel">Носимая электроника</label>-->
-<!--					</div>-->
-<!--					<a href="#" class="addpage-info"><img src="img/info.svg" alt="">Что это значит?</a>-->
-<!--					<div class="addform-sep"></div>-->
+					<div class="addform-sep"></div>
+					<label>Дополнительные категории показа запроса</label>
+{#					<div class="addform-subcat">#}
+{#						<input id="check04" type="checkbox" value="Yes">#}
+{#						<label for="check04" class="addform-subcatlabel">Техника</label>#}
+{#						<input id="check05" type="checkbox" value="Yes">#}
+{#						<label for="check05" class="addform-subcatlabel">Носимая электроника</label>#}
+{#					</div>#}
+                <div>
+
+                    {% for crumb, id in breadcrumb_and_id %}
+                        <div class="addform-subcat">
+                            <select  name="category" id="id_category" multiple="">
+                            <!--Надо понять что будем делать если клиент пришел через поиск с 0 категорией-->
+                              <option value="{% if not id %}1{% else %}{{ id }}{% endif %}" selected="selected">{% if not id %}Товары для животных{% else %}{{ crumb }}{% endif %}</option>
+                            </select>
+                        </div>
+                    {% endfor %}
+					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Что это значит?</a>
+					<div class="addform-sep"></div>
+
+                </div>
+
                     {% if user.is_authenticated %}
 					<input type="submit" value="Добавить">
                     {% else %}
@@ -105,4 +121,19 @@
 
     </div>
 </div>
+
+<script>
+// Google карты, подгрузка городов
+  let autocomplete, marker;
+  function initMap() {
+
+
+    let inputs = document.querySelector('#city');
+    autocomplete = new google.maps.places.Autocomplete(inputs);
+  }
+</script>
+
+<!--Ключ AIzaSyDTHp5GjWLNsyHUqx1cLmW-WmZj9R4afuU от API гугл карт, его нужно будет изменить при развертывании на продакшене и в личном кабинете предоставить доступ для его работы-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTHp5GjWLNsyHUqx1cLmW-WmZj9R4afuU&libraries=places&callback=initMap" async defer></script>
+
 {% endblock content %}

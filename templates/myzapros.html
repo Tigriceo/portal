@@ -7,9 +7,9 @@
 		{% block content %}
 		<div class="content-r">
 			<h1><a href="javascript:;" class="cat-menu-link profile-corr"></a>Мои запросы</h1>
-			<div class="tovars-flex">
+			<div class="tovars-flex infinite-container">
 				{% for advert in order_list %}
-					<div class="tovar-block">
+					<div class="tovar-block infinite-item">
 						<div class="tovar-city">Москва</div>
 						<a href="" class="tovar-link"></a>
 						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});">
@@ -43,6 +43,9 @@
 				{% endfor %}
 			</div>
 		</div>
+
+            {% include 'include/pagination.html' %}
+
 	</div>
 </div>
 

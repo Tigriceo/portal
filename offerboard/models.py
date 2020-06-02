@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
 
 from offerboard.gen_slug import gen_slug
@@ -10,7 +11,7 @@ class AbstractField(models.Model):
     """Общие - дополнительные поля"""
     name = models.CharField("Название", max_length=100)
     slug = models.SlugField("Url-адрес", max_length=100)
-    description = models.TextField("Описание", blank=True, null=True, max_length=5000)
+    description = models.TextField("Описание", null=True, max_length=5000)
 
     def __str__(self):
         return self.name
@@ -64,7 +65,7 @@ class Order(AbstractDeal):
 
     price_max = models.DecimalField("Максимальная цена", max_digits=8, decimal_places=2, default=0.00)
     date_validity = models.DateTimeField("Актуально до")
-    category = TreeManyToManyField(Category, verbose_name="Категории")
+    category = TreeManyToManyField(Category, verbose_name="Категории", blank=True)
     payment_method = models.CharField('Способ оплаты', max_length=50, choices=PAYMENT_METHOD_CHOICES, default='cash')
     buyer = models.ForeignKey(User, verbose_name="Покупатель", on_delete=models.CASCADE)
     city = models.CharField("Город", max_length=50, blank=True, null=True)

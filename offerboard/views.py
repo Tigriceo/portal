@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView
 
 from chat.models import ChatMessage, RoomChat
-from service.geoip.core import location_geoip
+# from service.geoip.core import location_geoip
 from user.models import Profile
 from .models import Order, Category, Offer
 from .forms import OrderForm, OfferForm, InactiveFilterForm
@@ -19,29 +19,32 @@ class CategoryDetailView(ListView):
     """Категории"""
     # model = Category
     slug_field = 'slug'
+    paginate_by = 4
     template_name = 'tovars.html'
 
     def get_queryset(self):
-        #     query = self.request.GET.get('q_city')
-        #     print(query).filter(city=query)
-        order_list = Order.objects.filter(category__slug=self.kwargs.get('slug'))
-        # list = order_list.count()
-        # print(list)
-        # cat = Category.objects.get(slug=self.kwargs.get('slug'))
-        # for i in cat.get_ancestors(include_self=True):
-        #     print(i.name, i.get_absolute_url())
-        # print(order_list, list)
+        query = self.request.GET.get('city')
+        if query is None or query == "Все города":
+            order_list = Order.objects.filter(category__slug=self.kwargs.get('slug'))
+        else:
+            order_list = Order.objects.filter(category__slug=self.kwargs.get('slug')).filter(city=query)
         return order_list
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(CategoryDetailView, self).get_context_data()
+        # seller = Offer.objects.filter(seller=self.request.user)
+        # print(seller)
         cat = Category.objects.get(slug=self.kwargs.get('slug'))
         bread = []
+        bread_id = []
         for i in cat.get_ancestors(include_self=True):
             crumb = i.name, i.get_absolute_url()
             bread.append(crumb)
+            bread_id.append(i.id)
         context['breadcrumb'] = bread
-        print(context['breadcrumb'])
+        context['bread_id'] = bread_id
+
+        # context['seller'] = seller
         return context
 
 
@@ -51,14 +54,16 @@ class OrderListView(View):
     def get(self, request):
         order_list = Order.objects.filter()[:4]
         # city = location_geoip(request)
-        print(location_geoip(request))
+        # print(location_geoip(request))
         return render(request, 'home.html', {'order_list': order_list})
 
 
 class SearchOrderView(ListView):
     """Поиск по сайту"""
     template_name = "tovars.html"
+    paginate_by = 4
 
+    # Добавить поиск по категориям
     def get_queryset(self):
         if self.request.GET.get("q", None):
             return Order.objects.filter(name__icontains=self.request.GET.get("q"))\
@@ -69,6 +74,7 @@ class SearchOrderView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(SearchOrderView, self).get_context_data()
+        print(self.request.user)
         context["search"] = self.request.GET.get("q")
         return context
 
@@ -80,20 +86,36 @@ class CreateOrderView(CreateView):
     template_name = 'addpage.html'
     success_url = reverse_lazy('home')
 
+    def string_list(self, value):
+        # строковый список преобразуем в нормальный список
+        result = [element.strip("'[()]") for element in value.split(", ")]
+        return result
+
     def get_context_data(self, **kwargs):
         context = super(CreateOrderView, self).get_context_data()
         context["search"] = self.request.GET.get("q")
-        string = self.request.GET.get("bread")
-        print(string)
-        result = [element.strip("'[()]") for element in string.split(", ")]
-        # a = result[1::2] если надо будет ссылки на категории
-        context["breadcrumb"] = result[::2]
+        bread_id = self.string_list(self.request.GET.get("bread_ids"))
+        breadcrumb = self.string_list(self.request.GET.get("bread"))
+        # a = breadcrumb[1::2] если надо будет ссылки на категории
+        context["breadcrumb"] = breadcrumb[::2]
+        context["breadcrumb_and_id"] = zip(breadcrumb[::2], bread_id)
         return context
+
+    # def get_initial(self):
+    #     #print(self.request.GET.get("bread_ids"))
+    #     initial = super().get_initial()
+    #     initial["category"] = self.request.GET.get("bread_ids")
+    #     return initial
 
     def form_valid(self, form):
         form.instance.buyer = self.request.user
         form.instance.date_validity += timedelta(hours=23, minutes=59)
+        # print(form.instance.category)
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print("Invalid")
+        return super().form_invalid(form)
 
 
 class CalculateProfile:
@@ -116,6 +138,7 @@ class CalculateProfile:
 class MyOrderListView(CalculateProfile, LoginRequiredMixin, ListView):
     """Мои заявки, объявления"""
     model = Order
+    paginate_by = 5
     template_name = "myzapros.html"
 
     def get_queryset(self):
@@ -183,6 +206,7 @@ class MyOfferListView(CalculateProfile, LoginRequiredMixin, ListView):
     """Мои предложения"""
     # model = Offer
     template_name = "mypredloz.html"
+    paginate_by = 5
 
     def get_queryset(self):
         return Offer.objects.filter(seller=self.request.user)
@@ -202,6 +226,7 @@ class MyOfferInView(CalculateProfile, LoginRequiredMixin, DetailView):
 
 class InactiveView(CalculateProfile, LoginRequiredMixin, View):
     """Неактивные заявки и предложения и фильтр по дате"""
+    # нужна пагинация
 
     def get_order(self):
         return Order.objects.filter(buyer=self.request.user)\

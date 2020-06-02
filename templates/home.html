@@ -5,6 +5,7 @@
 {% load i18n %}
 {#{% load account  %}#}
 {% load category_tags %}
+{% load city_ip_tags %}
 
 <html lang="ru">
 	<head>
@@ -14,6 +15,8 @@
 		<title>Главная страница</title>
 		<link rel="stylesheet" href="{% static 'style.css' %}">
 		<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+        <script src="{% static 'js/infinite.min.js' %}"></script>
 		<link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
         {% block vue %} {% endblock vue %}
 	</head>
@@ -24,8 +27,8 @@
 <header>
 	<div class="const">
 		<div class="logo-top"><a href="{% url 'home' %}"><img src="{% static 'img/iwtb-logo.png' %}" alt="Я хочу купить"></a></div>
-            <div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>Москва{{ city }}</span>
-                <a href="javascript:;" onclick="$('#cityselect').arcticmodal()">изменить</a>
+            <div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>{# location_geoip #}</span><!--{# location_geoip #} определение города вставить в <span></span>-->
+{#                <a href="javascript:;" onclick="$('#cityselect').arcticmodal()">изменить</a>#}
             </div>
         </div>
 		<div class="header-r">

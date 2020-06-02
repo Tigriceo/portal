@@ -1,0 +1,5 @@
+<div class="loading" style="display: none;">Загружаю...</div>
+
+{% if page_obj.has_next %}
+    <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}"></a>
+{% endif %}

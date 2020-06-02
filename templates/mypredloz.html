@@ -6,9 +6,9 @@
 {% block content %}
     <div class="content-r">
         <h1><a href="javascript:;" class="cat-menu-link profile-corr"></a>Мои предложения</h1>
-        <div class="tovars-flex">
+        <div class="tovars-flex infinite-container">
             {% for offer in offer_list %}
-                <div class="tovar-block tovar-mypredl">
+                <div class="tovar-block tovar-mypredl infinite-item">
                     <div class="tovar-city">Москва</div>
                     <div class="tovar-img" style="background-image: url({{ offer.photo.url }});">
                         {% if offer.status == 'approve' %}
@@ -28,7 +28,9 @@
         </div>
     </div>
 
-        </div>
+    {% include 'include/pagination.html' %}
+
+ </div>
     </div>
 {% endblock content %}
 

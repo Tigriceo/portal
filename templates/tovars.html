@@ -19,36 +19,40 @@
                 {% endfor %}
 {#                <span class="bread-cat-active">плееры</span>#}
 			</div>
-			<div class="tovars-flex">
+			<div class="tovars-flex infinite-container">
 				<div class="tovar-block tovar-add">
 
 					{% if user.is_authenticated %}
-{#                        <a href="{% url 'add_order' %}">#}
-						<div class="tovar-img-add">
-							<img src="{% static 'img/add-photo.svg' %}" alt=""><br>
-							<div>Добавить</div>
-						</div>
+    {#                        <a href="{% url 'add_order' %}">#}
+                        <div class="tovar-img-add">
+                            <img src="{% static 'img/add-photo.svg' %}" alt=""><br>
+                            <div>Добавить</div>
+                        </div>
 
-					<form action="{% url 'add_order' %}" method="get">
-                        <input type="hidden" value="{{ breadcrumb }}" name="bread">
-						<input type="text" placeholder="{% if not search %}Добавить запрос{% else %}{{search}}{% endif %}" value="{{search}}" name="q">
-						<input type="submit" value="Добавить запрос">
-					</form>
-{#					</a>#}
+                        <form action="{% url 'add_order' %}" method="get">
+                            <input type="hidden" value="{{ breadcrumb }}" name="bread">
+                        <input type="hidden" value="{{ bread_id }}" name="bread_ids" >
+
+                            <input type="text" placeholder="{% if not search %}Добавить запрос{% else %}{{search}}{% endif %}" value="{{search}}" name="q">
+                            <input type="submit" value="Добавить запрос">
+                        </form>
+    {#					</a>#}
 					{% else %}
-					<a href="javascript:;" onclick="$('#regform').arcticmodal()">
+                        <a href="javascript:;" onclick="$('#regform').arcticmodal()">
 
-						<div class="tovar-img-add">
-							<img src="{% static 'img/add-photo.svg' %}" alt=""><br>
-							<div>Добавить фото</div>
-						</div>
+                            <div class="tovar-img-add">
+                                <img src="{% static 'img/add-photo.svg' %}" alt=""><br>
+                                <div>Добавить фото</div>
+                            </div>
 
-					<form action="{% url 'add_order' %}" method="get">
-                        <input type="hidden" value="{{ breadcrumb }}" name="bread">
-						<input type="text" placeholder="{% if not search %}Добавить запрос{% else %}{{search}}{% endif %}" value="{{search}}" name="q">
-						<input type="submit" value="Добавить запрос">
-					</form>
-					</a>
+                            <form action="{% url 'add_order' %}" method="get">
+                                <input type="hidden" value="{{ breadcrumb }}" name="bread">
+                                <input type="hidden" value="{{ bread_id }}" name="bread_ids" >
+
+                                <input type="text" placeholder="{% if not search %}Добавить запрос{% else %}{{search}}{% endif %}" value="{{search}}" name="q">
+                            </form>
+                            <input type="submit" value="Добавить запрос">
+                        </a>
 					{% endif %}
 				</div>
 
@@ -56,9 +60,9 @@
 				{% if advert.date_validity|delta == 'quickly' %}
 				<div class="tovar-block tovar-hot">
 					{% else %}
-					<div class="tovar-block">
+					<div class="tovar-block infinite-item">
 						{% endif %}
-						<div class="tovar-city">Санкт-Петербург</div>
+						<div class="tovar-city">{{ advert.city }}</div>
 						<a href="{{ advert.get_absolute_url }}">
 						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});"></div>
 						<div class="tovar-info">
@@ -80,14 +84,17 @@
 							</div>	
 						</div>
 						</a>
-                        {% if advert.buyer != user %}
-						<a href="{{ advert.get_absolute_url }}" class="link-zap">Сделать предложение</a>
-                        {% endif %}
+
+                       {% if not advert.offers.all and advert.buyer != user %}
+                            <a href="{{ advert.get_absolute_url }}" class="link-zap">Сделать предложение</a>
+                       {% endif %}
+
 					</div>
 					{% endfor %}
 				</div>
 			</div>
 		</div>
+{% include 'include/pagination.html' %}
 	</div>
 </div>
 {% endblock content %}
