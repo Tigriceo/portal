@@ -86,8 +86,8 @@ function readURL(input) {
         const reader = new FileReader();
 
         reader.onload = function (e) {
-            $('#photo').attr('src', e.target.result);
-            $('.profile-photo').css('background-image', 'url(' + e.target.result + ')');
+            //$('#photo').attr('src', e.target.result);
+            $('.inside-photo').css('background-image', 'url(' + e.target.result + ')');
         };
 
         reader.readAsDataURL(input.files[0]);

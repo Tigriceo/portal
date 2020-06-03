@@ -39,17 +39,17 @@ jQuery(document).ready(function () {
 	});
 
 	$(".addpage-img").click(function () {
-        $(this).find('input[type="file"]')[0].click();
+		$(this).find('input[type="file"]')[0].click();
 	});
 
 	$(".profile-photo").click(function () {
-        $(this).find('input[type="file"]')[0].click();
+		$(this).find('input[type="file"]')[0].click();
 	});
 
 
-	$('.addpage-img input[type="file"]').change(function(e){
-        let value = e.target.files[0].name;
-        $(this).closest('.addpage-img').find('div').text(value);
+	$('.addpage-img input[type="file"]').change(function (e) {
+		let value = e.target.files[0].name;
+		$(this).closest('.addpage-img').find('div').text(value);
 	});
 
 	$('.datepicker-here').datepicker({
@@ -65,13 +65,46 @@ jQuery(document).ready(function () {
 
 	$('.modal-form-login #submit').prop('disabled', true);
 
-	$('.modal-form-login #check1').change(function(){
-if ($(this).prop('checked')){
-	$('.modal-form-login #submit').prop('disabled', false);
-}else{
-	$('.modal-form-login #submit').prop('disabled', true);
-}
+	$('.modal-form-login #check1').change(function () {
+		if ($(this).prop('checked')) {
+			$('.modal-form-login #submit').prop('disabled', false);
+		} else {
+			$('.modal-form-login #submit').prop('disabled', true);
+		}
 	})
-	
+
+
+	$('[data-select="multiple"]').each(function () {
+		var $select = $(this)
+		$mselect = $('<div class="mselect"></div>');
+
+		$select.hide();
+
+		var $opts = $select.find('option');
+		$select.after($mselect);
+		$opts.each(function (i, opt) {
+			if ($(this).is(':selected')) {
+				$mselect.append('<span class="mselect-opt selected" data-idx="' + i + '">' + $(opt).text() + '</span>');
+			} else {
+				$mselect.append('<span class="mselect-opt" data-idx="' + i + '">' + $(opt).text() + '</span>');
+			}
+		});
+
+	});
+
+	$(document).on('click', '.mselect-opt', function (event) {
+		event.preventDefault();
+		var $parent = $(this).parents('.mselect'),
+			$opts = $parent.find('.mselect-opt'),
+			$ogselect = $parent.prev('select'),
+			idx = $(this).data('idx'),
+			$ogopt = $ogselect.find('option').eq(idx);
+
+		$(this).toggleClass('selected');
+		var val = !$ogopt.is(':selected') ? 'selected' : '';
+
+		$ogopt.prop('selected', val);
+	});
+
+
 });
- 

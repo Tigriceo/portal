@@ -9,42 +9,54 @@
                     {% csrf_token %}
                     <div class="profile-flex">
                         <div>
-                        <a href="#" class="profile-photo" style="background-image:url({{ user.profile.avatar.url }});">
+                        <a href="#" class="profile-photo inside-photo" style="background-image:url({{ user.profile.avatar.url }});">
                             <input type="file" onchange="readURL(this);" name="avatar" accept="image/*" style="display:none;">
                             
                         </a>
-                        <input class="def-but" type="submit" value="{% if not user.profile.avatar.url %} Добавить {% else %} Изменить {% endif %}">
+                        <input class="def-but" type="submit" value="{% if not user.profile.avatar.url %} Добавить {% else %} Сохранить {% endif %}">
                         </div>
                         <div class="profile-info">
                             <div class="profile-info-row">
                                 <div>Телефон:</div>
                                     <div>{{user.profile.phone_number}}</div>
-    {#									<div><input type="submit" value="Изменить"></div>#}
+    {#									<div><input type="submit" value="Сохранить"></div>#}
                             </div>
                             <div class="profile-info-row">
                                 <div>Имя:</div>
                                     <div><input type="text" placeholder="Имя" name="first_name" value="{{ user.first_name }}"></div>
-                                    <div><input type="submit" value="{% if not user.first_name %} Добавить {% else %} Изменить {% endif %}"></div>
+                                    <div><input type="submit" value="{% if not user.first_name %} Добавить {% else %} Сохранить {% endif %}"></div>
                             </div>
 
                             <div class="profile-info-row">
                                 <div>Описание:</div>
                                 <div class="col-2"><textarea  placeholder="Описание" name="description" >{{user.profile.description}}</textarea></div>
-                                    <div><input type="submit" value="{% if not user.profile.description %} Добавить {% else %} Изменить {% endif %}"></div>
+                                    <div><input type="submit" value="{% if not user.profile.description %} Добавить {% else %} Сохранить {% endif %}"></div>
                             </div>
 
                             <div class="profile-info-row">
                                 <div>Почта:</div>
                                     <div><input type="text" placeholder="email" name="email" value="{{ user.email }}"></div>
-                                    <div><input type="submit" value="{% if not user.email %} Добавить {% else %} Изменить {% endif %}"></div>
+                                    <div><input type="submit" value="{% if not user.email %} Добавить {% else %} Сохранить {% endif %}"></div>
                             </div>
+                            <a class="logout" href="{% url 'logout' %}">Покинуть профиль</a>
                         </div>
 				    </div>
                 </form>
 			</div>
 		</div>
-	</div>
-
+    </div>
+    
+    <script> 
+$(window).on('beforeunload', function(){
+        return "Данные будут утеряны. Вы уверены что хотите покинуть страницу?";
+    });
+ 
+    $(document).on("submit", "form", function(event){
+        
+        $(window).off('beforeunload');
+    });
+    
+    </script>
 {% endblock content %}
 
 

@@ -28,6 +28,7 @@ input,
 textarea,
 input[type=submit],
 button,
+select,
 form {
 	font-size: 14px;
 	outline: none;
@@ -314,11 +315,15 @@ a.nobgbut:hover {
 	right: -23px;
 }
 
+.bread-cat a.bread-cat-a:last-child{
+	color:#00a1e4;
+}
+
 .bread-cat span {
 	margin-right: 0;
 }
 
-.bread-cat span:last-child:after {
+.bread-cat span:last-child:after, .bread-cat a:last-child:after {
 	display: none;
 }
 
@@ -571,7 +576,7 @@ footer .const {
 	height: 100%;
 	width: 320px;
 	box-sizing: border-box;
-	z-index: 1;
+	z-index: 99;
 	padding: 22px 0 20px 0;
 	left: -340px;
 	transition: 0.3s;
@@ -871,9 +876,12 @@ ul.menu-ul>li.cat-active>a span {
 }
 
 .tovar-info h2 {
-	font-size: 16px;
-	font-weight: 700;
-	margin-bottom: 6px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .tovar-foot {
@@ -976,7 +984,7 @@ ul.menu-ul>li.cat-active>a span {
 	border-top-right-radius: 5px;
 }
 
-.tovar-add>a {
+.tovar-img-add > div {
 	text-decoration: none;
 	color: #fff;
 	font-size: 18px;
@@ -1029,20 +1037,22 @@ ul.menu-ul>li.cat-active>a span {
 	display: block;
 }
 
-.tovar-add form input[type="submit"] {
+.tovar-add input[type="submit"] {
 	background: #003b71;
 	font-size: 14px;
 	text-transform: uppercase;
 	padding: 10px 15px;
-	width: 100%;
+	width: auto;
 	border-radius: 6px;
 	display: block;
 	color: #fff;
 	margin-top: 30px;
 	transition: 0.3s;
+	margin-left:auto;
+	margin-right: auto;
 }
 
-.tovar-add form input[type="submit"]:hover {
+.tovar-add input[type="submit"]:hover {
 	background: #eb3a9a;
 	cursor: pointer;
 }
@@ -1532,14 +1542,19 @@ input[type='checkbox']:checked+label:before {
 	text-decoration: none;
 }
 
-label.addform-subcatlabel {
+
+.addform-subcat{
+	margin-top: 10px;
+}
+
+.addform-subcat .mselect span{
 	position: relative;
-	font-size: 14px;
+	font-size: 12px;
 	padding-left: 30px;
 	border: 1px solid #0675aa;
 	border-radius: 2px;
-	padding: 10px 15px;
-	color: #0675aa;
+	padding: 8px 12px;
+	color: #0675aa !important;
 	text-transform: uppercase;
 	font-weight: 500;
 	display: inline-block !important;
@@ -1547,20 +1562,20 @@ label.addform-subcatlabel {
 	margin-right: 10px;
 	margin-bottom: 10px;
 	cursor: pointer;
-}
-
-label.addform-subcatlabel:last-child {
-	margin-right: 0;
+	background-color: #fff !important;
 }
 
 
-input[type='checkbox']:checked+label.addform-subcatlabel {
+.addform-subcat .mselect span.selected {
 	border: 1px solid #eb3a9a;
-	color: #eb3a9a;
+	color: #eb3a9a !important;
+	background-color: #fff !important;
 }
 
-input[type='checkbox']:checked+label.addform-subcatlabel:before {
-	display: none;
+.inside-photo{
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .addpage form input[type='button'],
@@ -1570,7 +1585,7 @@ input[type='checkbox']:checked+label.addform-subcatlabel:before {
 .addpredl form input[type='submit'] {
 	background: #00a1e4;
 	border-radius: 6px;
-	padding: 10px 20px;
+	padding: 10px 14px;
 	text-transform: uppercase;
 	font-weight: 500;
 	color: #fff;
@@ -1602,6 +1617,34 @@ input[type='checkbox']:checked+label.addform-subcatlabel:before {
 	font-size: 12px;
 	text-align: center;
 	width: max-content;
+}
+
+.def-but:hover{
+	background: #eb3a9a;
+	color:#fff;
+}
+
+.logout {
+    background: tomato;
+    border-radius: 6px;
+    padding: 6px 12px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #fff;
+    outline: none;
+    opacity: 1.0;
+    transition: 0.2s;
+    cursor: pointer;
+    display: block;
+    margin: 0;
+    transition: 0.2s;
+    font-size: 12px;
+    text-align: center;
+    width: max-content;
+}
+
+.logout:hover{
+	background: #333;
 }
 
 
@@ -2361,7 +2404,10 @@ a.chat-hide.chat-showed {
 
 @media screen and (max-width: 1200px) {
 	.const {
-		width: 1040px;
+		width: 100%;
+		box-sizing: border-box;
+		padding-left: 15px !important;
+		padding-right: 15px !important;
 	}
 
 }
@@ -2370,7 +2416,8 @@ a.chat-hide.chat-showed {
 	.const {
 		width: 100%;
 		box-sizing: border-box;
-		padding: 0 30px;
+		padding-left: 15px;
+		padding-right: 15px;
 	}
 
 	.last-lent {
@@ -2387,6 +2434,14 @@ a.chat-hide.chat-showed {
 
 	.lang-block a {
 		font-size: 0;
+	}
+
+	.link-zap {
+		font-size: 14px;
+		text-align: center;
+		width: auto;
+		margin-left: 10px;
+		margin-right: 10px;
 	}
 
 }
