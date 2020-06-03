@@ -9,7 +9,7 @@ from django.urls import reverse
 class Profile(models.Model):
     """Профиль пользователя"""
     user = models.OneToOneField(User, verbose_name="Имя пользователя", on_delete=models.CASCADE)
-    description = models.TextField("Описание", blank=True, null=True, max_length=5000)
+    description = models.TextField("Описание", blank=True, max_length=5000)
     avatar = models.ImageField("Фото", default='default.svg', upload_to='profile_photo')
     phone_number = models.CharField("Телефон", max_length=17, blank=True, null=True, unique=True)
     balance = models.FloatField("Баланс", default=0.00)

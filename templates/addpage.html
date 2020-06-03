@@ -35,8 +35,9 @@
 					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
 
 					<div class="addform-sep"></div>
-					<div class="addform-city">Мы определили ваш город: <span>{# location_geoip #}</span> <!--<a href="">Изменить</a>--><!--{# location_geoip #} определение города вставить в <span></span>-->
-                    <input type="text" id="city" placeholder="Введите город" name="city">
+                    {% location_geoip as city_geo_ip %}
+					<div class="addform-city">{% if city_geo_ip == "не определен" %}Укажите ваш город{% else %}Мы определили ваш город{% endif %}
+                    <input type="text" id="city" name="city" {% if city_geo_ip == "не определен" %}placeholder="Введите город" {% else %}value="{% location_geoip %}"{% endif %}>
                     </div>
 					<a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Что это значит?</a>
 

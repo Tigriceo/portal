@@ -1,5 +1,6 @@
 from django import template
 import geoip2.database
+from geoip2.errors import AddressNotFoundError
 
 register = template.Library()
 
@@ -17,10 +18,12 @@ def location_geoip(context):
     # g = GeoIP2()
     # location = g.city(ip)
     # location_city = location["city"]
-
     reader = geoip2.database.Reader('service/geoip/GeoLite2-City.mmdb')
-    response = reader.city(ip)
-    location_city = response.city.names['ru']
-    print(location_city)
-    reader.close()
-    return location_city
+    try:
+        response = reader.city(ip)
+        location_city = response.city.names['ru']
+        print(location_city)
+        reader.close()
+        return location_city
+    except AddressNotFoundError:
+        return "не определен"

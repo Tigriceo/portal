@@ -27,7 +27,7 @@
 <header>
 	<div class="const">
 		<div class="logo-top"><a href="{% url 'home' %}"><img src="{% static 'img/iwtb-logo.png' %}" alt="Я хочу купить"></a></div>
-            <div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>{# location_geoip #}</span><!--{# location_geoip #} определение города вставить в <span></span>-->
+            <div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>{% location_geoip %}</span>
 {#                <a href="javascript:;" onclick="$('#cityselect').arcticmodal()">изменить</a>#}
             </div>
         </div>
