@@ -25,10 +25,10 @@
 						<span>{{ order.price_min }} - {{ order.price_max }}руб</span>
 					</div>
 				</div>
-				<div class="tovar-dopinfo">Нужна доставка в город: <span>Москва</span></div>
-				<div class="tovar-dopinfo">Желаемый способ оплаты: <span>{{ order.get_payment_method_display }}</span></div>
-				<div class="tovar-dopinfo">Принимать предложения от магазинов: <span>Разрешено</span></div>
-                <div class="tovar-dopinfo">Принимать предложения из других регионов: <span>Разрешено</span></div>
+				<div class="tovar-dopinfo">Нужна доставка в город:<br><span>Москва</span></div>
+				<div class="tovar-dopinfo">Желаемый способ оплаты:<br><span>{{ order.get_payment_method_display }}</span></div>
+				<div class="tovar-dopinfo">Принимать предложения от магазинов:<br><span>Разрешено</span></div>
+                <div class="tovar-dopinfo">Принимать предложения из других регионов:<br><span>Разрешено</span></div>
 
                 <div class="tovar-foot">
                 <div class="tovar-offer">
@@ -48,7 +48,7 @@
             <h1>Сделать предложение</h1>
             <form action="{% url 'order' order.id %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <a href="javascript:;" class="addpage-img" style="background-image:none;">
+                <a href="javascript:;" class="addpage-img inside-photo" style="background-image:none;">
                     <img id="photo" src="{% static 'img/add-photo-blue.svg' %}" alt=""><br>
                     <div>Добавить фото</div>
                     <input type="file" onchange="readURL(this);" name="photo" accept="image/*">

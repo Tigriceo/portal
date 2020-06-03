@@ -19,7 +19,7 @@
 			{% csrf_token %}
 {#                <input type="hidden" value="{{ bread_ids }}" name="category">#}
 {#        {{ form.category }}#}
-                <a href="javascript:;" class="addpage-img" style="background-image:none;">
+                <a href="javascript:;" class="addpage-img inside-photo" style="background-image:none;">
                     <img id="photo" src="{% static 'img/add-photo-blue.svg' %}" alt=""><br>
                     <div>Добавить фото</div>
                     <input type="file" name="photo" onchange="readURL(this);" accept="image/*">
@@ -87,9 +87,9 @@
 
                     {% for crumb, id in breadcrumb_and_id %}
                         <div class="addform-subcat">
-                            <select  name="category" id="id_category" multiple="">
+                            <select data-select="multiple"  name="category" id="id_category" multiple="">
                             <!--Надо понять что будем делать если клиент пришел через поиск с 0 категорией-->
-                              <option value="{% if not id %}1{% else %}{{ id }}{% endif %}" selected="selected">{% if not id %}Товары для животных{% else %}{{ crumb }}{% endif %}</option>
+							  <option value="{% if not id %}1{% else %}{{ id }}{% endif %}" selected="selected">{% if not id %}Товары для животных{% else %}{{ crumb }}{% endif %}</option>
                             </select>
                         </div>
                     {% endfor %}
