@@ -64,8 +64,7 @@
 
 				<div class="chat-block"  id="app">
                     <a id="ch-{{offer.roomchat.id}}" class="chat-hide" v-bind:data-roomchat="{{offer.roomchat.id}}" href="javascript:;"
-                    v-on:click="showChat('{{ offer.roomchat.id }}')"
-                    ></a>
+                    v-on:click="showChat('{{ offer.roomchat.id }}')"></a>
 {#					<a class="chat-close" href="">Закрыть диалог с покупателем</a>#}
 					<div class="chat-header">
 						<div class="chat-ava" style="background-image: url({{ user.profile.avatar.url }});"></div>
@@ -123,10 +122,12 @@ $(document).ready(function() {
                     showChatId: '',
                     chatSocket: '',
                     message: '',
+                    id: {{ offer.roomchat.id }}
                 }
             },
             created() {
-
+                this.showChatId = this.id
+                this.openChat()
             },
             methods: {
                 showChat(id) {
@@ -150,6 +151,7 @@ $(document).ready(function() {
                             this.chat_message = response.chat_message
                         }
                     })
+                    this.scrollChat()
                     this.connect()
                 },
                 connect() {
@@ -175,6 +177,13 @@ $(document).ready(function() {
                     }));
                     this.message = '';
                 },
+                scrollChat() {
+                    setTimeout(() => {
+                        let content = document.querySelector('.chat-content');
+                        content.scrollTop = content.scrollHeight
+                    }, 1000)
+
+                }
             }
         })
 

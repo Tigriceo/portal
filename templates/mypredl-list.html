@@ -245,6 +245,7 @@ $(document).ready(function() {
                             this.chat_message = response.chat_message
                         }
                     })
+                    this.scrollChat()
                     this.connect()
                 },
                 connect() {
@@ -270,6 +271,13 @@ $(document).ready(function() {
                     }));
                     this.message = '';
                 },
+                scrollChat() {
+                    setTimeout(() => {
+                        let content = document.querySelector('.chat-content');
+                        content.scrollTop = content.scrollHeight
+                    }, 1000)
+
+                }
             }
         })
     {#var user = $(this).data("user")#}
@@ -290,18 +298,18 @@ $(document).ready(function() {
         {#    //document.getElementById('#chat-log').innerHTML = (data.message);#}
         {#    document.querySelector(`#chat-log-${valueid}`).value += (data.message + '\n');#}
         {#    console.log((data.message))#}
-        {#};#}
+        //};
 
         {#chatSocket.onclose = function(e) {#}
         {#    console.error('Chat socket closed unexpectedly');#}
-        {#};#}
+        //};
         {##}
         {#document.querySelector(`#chat-message-input-${valueid}`).focus();#}
         {#document.querySelector(`#chat-message-input-${valueid}`).onkeyup = function(e) {#}
         {#    if (e.keyCode === 13) {  // enter, return#}
         {#        document.querySelector(`#chat-message-submit-${valueid}`).click();#}
         {#    }#}
-        {#};#}
+        //};
 
         {#document.querySelector(`#chat-message-submit-${valueid}`).onclick = function(e) {#}
         {#    const messageInputDom = document.querySelector(`#chat-message-input-${valueid}`);#}
@@ -311,11 +319,11 @@ $(document).ready(function() {
         {#        'user': {{ user.id }}#}
         {#    }));#}
         {#    messageInputDom.value = '';#}
-        {#};#}
-    {#}#}
+        //};
+    //}
 
 
-    {#}#}
+    //}
     </script>
 
 {% endblock content %}
