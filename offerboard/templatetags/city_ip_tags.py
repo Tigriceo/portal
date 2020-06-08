@@ -27,3 +27,5 @@ def location_geoip(context):
         return location_city
     except AddressNotFoundError:
         return "не определен"
+    except:
+        return "no city"

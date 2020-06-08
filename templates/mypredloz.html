@@ -22,7 +22,7 @@
                         {{ offer.description }}
                     </div>
                     <div class="my-predl-title">Предложения на:</div>
-                    <a href="{% url 'my_offer_in' offer.id %}" class="my-predl-link">{{ offer.order }}</a>
+                    <a href="javascript:;" class="my-predl-link">{{ offer.order }}</a> {# {% url 'my_offer_in' offer.id %} #}
                 </div>
             {% endfor %}
         </div>
