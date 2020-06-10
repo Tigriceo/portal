@@ -99,8 +99,9 @@
 
                 </div>
 
-                    {% if user.is_authenticated %}
-					<input type="submit" value="Добавить">
+					{% if user.is_authenticated %}
+					<a href="javascript:;" class="addpage-info gozapros" onclick="$('#submitform').arcticmodal()">Добавить</a>
+					<input type="submit" value="Добавить" style="display:none">
                     {% else %}
                     <a href="javascript:;" class="addpage-info" onclick="$('#regform').arcticmodal()">
 						<input type="button" value="Добавить">
@@ -109,6 +110,22 @@
 				</form>
 	</div>
 </div>
+
+<div style="display: none;">
+    <div class="box-modal" id="submitform">
+        <div class="box-modal_close arcticmodal-close"></div>
+	
+		<div class="modal-title">Вы уверены?</div>
+		Проверьте ещё раз ваш запрос, так как его нельзя будет отредактировать. Если вы захотите изменить данные, вам придется сделать новый запрос.
+		<a href="javascript:;" id="submitzapros" class="gozapros">Да, добавить запрос</a><a href="javascript:;" class="nogozapros arcticmodal-close">Хочу проверить еще раз</a>
+    </div>
+</div>
+<script>
+$('#submitzapros').click(function(){
+	$('.addpage form input[type=submit]').click();
+	$('#submitform').arcticmodal('close');
+})
+</script>
 
 
 

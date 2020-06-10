@@ -60,8 +60,10 @@
 							<h2>{{ offer.name }}</h2>
 								{{ offer.description }}
 						</div>
+						<div class="tovar-foot">
 						<div class="my-predl-title">Предложения на:</div>
 						<a href="{% url 'order' offer.order.id %}" class="my-predl-link">{{ offer.order }}</a>
+						</div>
 					</div>
 				{% endfor %}
 			</div>

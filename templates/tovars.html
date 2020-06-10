@@ -23,11 +23,18 @@
 				<div class="tovar-block tovar-add">
 
 					{% if user.is_authenticated %}
-    {#                        <a href="{% url 'add_order' %}">#}
+<script>
+//Т.к. нужно отрабатывать клик по кнопке (передаются хлебные крошки), то при клике по картиинке инициируем клик по кнопке
+function gotozapros(){
+	$('.tovar-add form input[type=submit]').click();
+}
+</script>
+                        <a href="javascript:;" onclick="gotozapros();">
                         <div class="tovar-img-add">
                             <img src="{% static 'img/add-photo.svg' %}" alt=""><br>
                             <div>Добавить</div>
-                        </div>
+						</div>
+						</a>
 
                         <form action="{% url 'add_order' %}" method="get">
                             <input type="hidden" value="{{ breadcrumb }}" name="bread">
@@ -36,7 +43,6 @@
                             <input type="text" placeholder="{% if not search %}Добавить запрос{% else %}{{search}}{% endif %}" value="{{search}}" name="q">
                             <input type="submit" value="Добавить запрос">
                         </form>
-    {#					</a>#}
 					{% else %}
                         <a href="javascript:;" onclick="$('#regform').arcticmodal()">
 

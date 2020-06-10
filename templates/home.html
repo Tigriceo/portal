@@ -27,25 +27,25 @@
 <header>
 	<div class="const">
 		<div class="logo-top"><a href="{% url 'home' %}"><img src="{% static 'img/iwtb-logo.png' %}" alt="Я хочу купить"></a></div>
-            <div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>{% location_geoip %}</span>
-{#                <a href="javascript:;" onclick="$('#cityselect').arcticmodal()">изменить</a>#}
+		<div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>{% location_geoip %}</span>
+{#      <a href="javascript:;" onclick="$('#cityselect').arcticmodal()">изменить</a>#}
             </div>
         </div>
 		<div class="header-r">
 			<div class="profile-block">
 				{% if user.is_authenticated %}
-					<a href="{% url 'profile' %}">
 						<div class="profile-block-l">
-							{{ user.profile.phone_number }}<br>
-							Баланс: {{ user.profile.balance }} р
+							<a href="{% url 'profile' %}">{{ user.profile.phone_number }}</a><br>
+							Баланс: {{ user.profile.balance }}&#8381;
 						</div>
-					</a>
-					<div class="profile-block-img" style="background-image: url({{ user.profile.avatar.url }});">
-					<a href="{% url 'logout' %}" class="profile-exit" title="Покинуть профиль"></a>
+					<a href="{% url 'profile' %}"><div class="profile-block-img" style="background-image: url({{ user.profile.avatar.url }});"></div></a>
+					<div>
+						<a href="{% url 'logout' %}" class="profile-exit" title="Покинуть профиль"></a>
+						<a href="{% url 'profile' %}" class="profile-msg" title="Прочитать сообщения"><span>0</span></a>
 					</div>
 				{% else %}
 					<div>
-						<a href="javascript:;" onclick="$('#regform').arcticmodal()" >Вход</a>
+						<a href="javascript:;" onclick="$('#regform').arcticmodal()" class="gotologin" ><img src="{% static 'img/login.svg' %}" alt="">Вход</a>
 					</div>
 				{% endif %}
 			</div>
@@ -76,7 +76,7 @@
         {% block content %}
 		<div class="const">
 			<a href="javascript:;" class="cat-menu-link">Категории</a>
-{#			<h1>Для тех, кто ценит время</h1>#}
+			<h1>Напишите, что вы хотите купить и нажмите поиск</h1>
 			<a href="#" class="nobgbut"> Инструкция по работе с порталом</a>
 {#			<div class="bread">#}
 {#				<span>электроника</span> <span>портативная</span> <span>плееры</span>#}
