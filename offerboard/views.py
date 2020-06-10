@@ -12,7 +12,7 @@ from chat.models import ChatMessage, RoomChat
 # from service.geoip.core import location_geoip
 from user.models import Profile
 from .models import Order, Category, Offer
-from .forms import OrderForm, OfferForm, InactiveFilterForm
+from .forms import OrderForm, OfferForm, InactiveFilterForm, OrderDateForm
 
 
 class CategoryDetailView(ListView):
@@ -142,10 +142,22 @@ class MyOrderListView(CalculateProfile, LoginRequiredMixin, ListView):
     template_name = "myzapros.html"
 
     def get_queryset(self):
-        # if Order.objects.filter(date_validity__gte=datetime.now(timezone.utc)):
         return Order.objects.filter(buyer=self.request.user)\
                         .filter(date_validity__gte=datetime.now(timezone.utc))\
                         .order_by('date_validity')
+
+
+class CheckDateView(View):
+
+    def post(self, request, pk):
+        print('onnnnn')
+        # # offer = Order.objects.get(pk=pk)
+        # form = OrderDateForm(request.POST)
+        # print(self.request.POST.get('date_validity'))
+        # if form.is_valid():
+        #     form.save()
+
+        return redirect('/')
 
 
 class ListOfferView(CalculateProfile, LoginRequiredMixin, DetailView):
@@ -164,7 +176,6 @@ class ListOfferView(CalculateProfile, LoginRequiredMixin, DetailView):
 
     def post(self, request, pk):
         """Одобрить или отклонить предложение"""
-        url = self.request.META['HTTP_REFERER']  # --------------------------------------
         if request.method == 'POST':
             offer = Offer.objects.get(pk=pk)
             if 'reject' in request.POST:
@@ -172,7 +183,7 @@ class ListOfferView(CalculateProfile, LoginRequiredMixin, DetailView):
             elif 'approve' in request.POST:
                 offer.status = 'approve'
             offer.save()
-        return redirect(url)
+        return redirect(self.request.META['HTTP_REFERER'])
 
 
 class GetChatMessageView(View):

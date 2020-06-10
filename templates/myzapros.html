@@ -10,7 +10,7 @@
 			<div class="tovars-flex infinite-container">
 				{% for advert in order_list %}
 					<div class="tovar-block infinite-item">
-						<div class="tovar-city">Москва</div>
+						<div class="tovar-city">{{ advert.city }}</div>
 						<a href="" class="tovar-link"></a>
 						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});">
 							{% for offer in advert.offers.all %}
@@ -36,9 +36,22 @@
 							</div>
 							<div class="tovar-offer">
 								откликов ({{ advert.offers.count }}) <br>
-								<span class="tovar-actual">Актуально  {{ advert.date_validity|delta }}</span>
+                                {% if advert.date_validity|delta == 'quickly' %}
+								    <span class="tovar-actual">Срочно</span>
+                                {% else %}
+                                    <span class="tovar-actual">Актуально  {{ advert.date_validity|delta }}</span>
+                                {% endif %}
 							</div>
-							<a href="#" class="delete-all">Отменить запрос</a>
+
+
+{#                            <form id="delete_form" action="/delete/" method="post">#}
+{#                                {% csrf_token %}#}
+{#                                <input type="hidden" name="date_validity" value="{{ advert.date_validity }}">#}
+{#                                <input type="submit" value="OOOOOOOO">#}
+{#                                <button class="otkl-zapros" name="delete" type="submit" value="{{ advert.date_validity }}">Отклонить запрос</button>#}
+{#                            </form>#}
+
+							    <a href="/delete/{{ advert.id }}" class="delete-all">Отменить запрос</a>
 						</div>
 					</div>
 				{% endfor %}

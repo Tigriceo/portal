@@ -27,3 +27,9 @@ class InactiveFilterForm(forms.Form):
     min_data = forms.DateField(required=False)
     max_data = forms.DateField(required=False)
 
+
+class OrderDateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['date_validity']
+

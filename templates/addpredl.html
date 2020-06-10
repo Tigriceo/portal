@@ -25,7 +25,7 @@
 						<span>{{ order.price_min }} - {{ order.price_max }}руб</span>
 					</div>
 				</div>
-				<div class="tovar-dopinfo">Регион размещения:<br><span>Москва</span></div>
+				<div class="tovar-dopinfo">Регион размещения:<br><span>{{ order.city }}</span></div>
 				<div class="tovar-dopinfo">Желаемый способ оплаты:<br><span>{{ order.get_payment_method_display }}</span></div>
 				<div class="tovar-dopinfo">Принимать предложения от магазинов:<br><span>Разрешено</span></div>
                 <div class="tovar-dopinfo">Принимать предложения из других регионов:<br><span>Разрешено</span></div>
@@ -45,6 +45,7 @@
 		</div>
 
         <div class="addpredl-r">
+        {% if order.buyer != user and not order.offers.all %}
             <h1>Сделать предложение</h1>
             <form action="{% url 'order' order.id %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -67,7 +68,7 @@
                     <input type="number" name="price_min" min="0" required>
                 </div>
                     <a href="#" class="addpage-info"><img src="{% static 'img/info.svg' %}" alt="">Инструция по заполнению</a>
-                {% if order.buyer != user and not order.offers.all %}
+
                     {% if user.is_authenticated %}
                         <input type="submit" value="Сделать предложение">
                     {% else %}

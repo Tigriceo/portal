@@ -35,7 +35,7 @@
 			<div class="profile-block">
 				{% if user.is_authenticated %}
 						<div class="profile-block-l">
-							<a href="{% url 'profile' %}">{{ user.profile.phone_number }}</a><br>
+							<a href="{% url 'profile' %}">{% if user.first_name %}{{ user.first_name }}{% else %}{{ user.profile.phone_number }}{% endif %}</a><br>
 							Баланс: {{ user.profile.balance }}&#8381;
 						</div>
 					<a href="{% url 'profile' %}"><div class="profile-block-img" style="background-image: url({{ user.profile.avatar.url }});"></div></a>
@@ -97,10 +97,10 @@
 							<div class="tovar-offer">
 								откликов ({{ order.offers.count }}) <br>
 								{% if order.date_validity|delta == 'quickly' %}
-                                <span class="lb-af-price">Срочно</span>
-                            {% else %}
-                                <span class="lb-af-price">актуально {{ order.date_validity|delta }}</span>
-                            {% endif %}
+                                    <span class="lb-af-price">Срочно</span>
+                                {% else %}
+                                    <span class="lb-af-price">актуально {{ order.date_validity|delta }}</span>
+                                {% endif %}
 							</div>
                         </a>
                     </div>
@@ -195,6 +195,7 @@
 <link href="{% static 'datepicker.min.css' %}" rel="stylesheet" type="text/css">
 <script src="{% static 'js/datepicker.min.js' %}"></script>
 <script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/delete.js' %}"></script>
 
 <script>
 	$(function() {

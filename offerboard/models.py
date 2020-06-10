@@ -49,7 +49,7 @@ class Category(MPTTModel, AbstractField):
 
 class AbstractDeal(AbstractField):
     """Общие - дополнительные поля"""
-    photo = models.ImageField("Фото", default="default.svg", upload_to="product_photo")
+    photo = models.ImageField("Фото", default="nophoto.png", upload_to="product_photo")
     price_min = models.DecimalField("Минимальная цена", max_digits=8, decimal_places=2, default=0.00)
     date_publication = models.DateTimeField("Дата создания", auto_now_add=True)
 
