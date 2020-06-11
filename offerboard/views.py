@@ -24,10 +24,10 @@ class CategoryDetailView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('city')
-        if query is None or query == "Все города":
-            order_list = Order.objects.filter(category__slug=self.kwargs.get('slug'))
+        if query == '0' or query == "Все города":
+            order_list = Order.objects.filter(category__slug=self.kwargs.get('slug'), date_validity__gte=datetime.now(timezone.utc))
         else:
-            order_list = Order.objects.filter(category__slug=self.kwargs.get('slug')).filter(city=query)
+            order_list = Order.objects.filter(category__slug=self.kwargs.get('slug'), city=query, date_validity__gte=datetime.now(timezone.utc))
         return order_list
 
     def get_context_data(self, *, object_list=None, **kwargs):
