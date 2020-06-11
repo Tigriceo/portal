@@ -24,7 +24,11 @@
                     <span>{{order.price_min}} - {{order.price_max}}руб</span>
                 </div>
                 <div class="tovar-offer">
-                    <span class="tovar-actual">Актуально {{ order.date_validity|delta }}</span>
+                    {% if order.date_validity|delta == 'quickly' %}
+                        <span class="tovar-actual">Срочно</span>
+                    {% else %}
+                        <span class="tovar-actual">Актуально {{ order.date_validity|delta }}</span>
+                    {% endif %}
                 </div>
             </div>
             <a class="delete-zapros">Отменить запрос</a>
@@ -95,7 +99,7 @@
                         </div>
                     </div>
                     <div class="chat-precontent" style="display: none;">
-                        <div class="chat-content">
+                        <div class="chat-content" id="{{ offer.roomchat.id }}">
 
                                 <div v-for="chat in chat_message" :key="chat.id"
                                     :class="chat.user === user ? 'seller-msg' : 'client-msg' ">
@@ -272,8 +276,9 @@ $(document).ready(function() {
                     this.message = '';
                 },
                 scrollChat() {
+                    console.log("not scroll")
                     setTimeout(() => {
-                        let content = document.querySelector('.chat-content');
+                        let content = document.getElementById(`${this.showChatId}`);
                         content.scrollTop = content.scrollHeight
                     }, 1000)
 

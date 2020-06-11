@@ -1,3 +1,35 @@
+// Установка csrf_token
+(function () {
+    let csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+        headers: {"X-CSRFToken": csrftoken}
+    });
+    console.log("good csrf")
+})();
+
+
+let delete_request = function(id) {
+    console.log("ok1");
+
+    $.ajax({
+        url: 'http://127.0.0.1:8000/delete/',
+        type: 'POST',
+        // dataType: 'json',
+        data: {
+            pk: id
+        },
+        // cache: true,
+        success: function () {
+            alert('ok')
+        },
+        error: function () {
+            console.log('error')
+        }
+    })
+}
+
+
+
 // $(function(){
 //     let form = $('#delete_form');
 //     console.log("ok1");

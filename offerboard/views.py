@@ -12,7 +12,7 @@ from chat.models import ChatMessage, RoomChat
 # from service.geoip.core import location_geoip
 from user.models import Profile
 from .models import Order, Category, Offer
-from .forms import OrderForm, OfferForm, InactiveFilterForm, OrderDateForm
+from .forms import OrderForm, OfferForm, InactiveFilterForm
 
 
 class CategoryDetailView(ListView):
@@ -147,16 +147,13 @@ class MyOrderListView(CalculateProfile, LoginRequiredMixin, ListView):
                         .order_by('date_validity')
 
 
-class CheckDateView(View):
+class CheckDateView(LoginRequiredMixin, View):
 
-    def post(self, request, pk):
+    def post(self, request):
         print('onnnnn')
-        # # offer = Order.objects.get(pk=pk)
-        # form = OrderDateForm(request.POST)
-        # print(self.request.POST.get('date_validity'))
-        # if form.is_valid():
-        #     form.save()
-
+        offer = Order.objects.get(id=request.POST.get('pk'), buyer=request.user)
+        offer.delete()
+        print(offer)
         return redirect('/')
 
 

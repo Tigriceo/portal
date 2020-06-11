@@ -11,7 +11,7 @@
 				{% for advert in order_list %}
 					<div class="tovar-block infinite-item">
 						<div class="tovar-city">{{ advert.city }}</div>
-						<a href="" class="tovar-link"></a>
+{#						<a href="#" class="tovar-link"></a>#}
 						<div class="tovar-img" style="background-image: url({{ advert.photo.url }});">
 							{% for offer in advert.offers.all %}
                                 {% if offer.status != 'reject' %}
@@ -50,8 +50,8 @@
 {#                                <input type="submit" value="OOOOOOOO">#}
 {#                                <button class="otkl-zapros" name="delete" type="submit" value="{{ advert.date_validity }}">Отклонить запрос</button>#}
 {#                            </form>#}
-
-							    <a href="/delete/{{ advert.id }}" class="delete-all">Отменить запрос</a>
+                            <button class="otkl-zapros" name="delete" type="button" onclick="delete_request('{{ advert.id }}')">Отклонить запрос</button>
+{#							    <a href="" class="delete-all">Отменить запрос</a>#}
 						</div>
 					</div>
 				{% endfor %}
