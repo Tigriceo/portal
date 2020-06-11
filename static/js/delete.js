@@ -4,12 +4,10 @@
     $.ajaxSetup({
         headers: {"X-CSRFToken": csrftoken}
     });
-    console.log("good csrf")
 })();
 
 
 let delete_request = function(id) {
-    console.log("ok1");
 
     $.ajax({
         url: 'http://127.0.0.1:8000/delete/',
@@ -20,7 +18,7 @@ let delete_request = function(id) {
         },
         // cache: true,
         success: function () {
-            alert('ok')
+            location.reload();
         },
         error: function () {
             console.log('error')

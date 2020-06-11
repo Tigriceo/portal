@@ -14,7 +14,7 @@ def location_geoip(context):
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = context['request'].META.get('REMOTE_ADDR')
-    print(ip)
+    # print(ip)
     # g = GeoIP2()
     # location = g.city(ip)
     # location_city = location["city"]

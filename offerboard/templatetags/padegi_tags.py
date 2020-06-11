@@ -24,7 +24,6 @@ def padegi(var=0, arg="дурак,дурака,дураков"):
 @register.filter()
 def delta(value):
     """Актуально Х дней и Х часов"""
-
     delta_date = value - datetime.now(timezone.utc)
     date = abs(delta_date)
     day = date.days

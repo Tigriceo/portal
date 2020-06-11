@@ -32,8 +32,6 @@ class CategoryDetailView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(CategoryDetailView, self).get_context_data()
-        # seller = Offer.objects.filter(seller=self.request.user)
-        # print(seller)
         cat = Category.objects.get(slug=self.kwargs.get('slug'))
         bread = []
         bread_id = []
@@ -43,7 +41,7 @@ class CategoryDetailView(ListView):
             bread_id.append(i.id)
         context['breadcrumb'] = bread
         context['bread_id'] = bread_id
-
+        # print(context['response_user'])
         # context['seller'] = seller
         return context
 
@@ -52,7 +50,7 @@ class OrderListView(View):
     """Вывод 4 объявлений на главной странице"""
 
     def get(self, request):
-        order_list = Order.objects.filter()[:4]
+        order_list = Order.objects.filter(date_validity__gte=datetime.now(timezone.utc))[:4]
         # city = location_geoip(request)
         # print(location_geoip(request))
         return render(request, 'home.html', {'order_list': order_list})
@@ -74,7 +72,7 @@ class SearchOrderView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(SearchOrderView, self).get_context_data()
-        print(self.request.user)
+        # print(self.request.user)
         context["search"] = self.request.GET.get("q")
         return context
 
@@ -148,13 +146,15 @@ class MyOrderListView(CalculateProfile, LoginRequiredMixin, ListView):
 
 
 class CheckDateView(LoginRequiredMixin, View):
-
+    """Отклонить запрос, после нажатия на кнопку меняем дату"""
     def post(self, request):
-        print('onnnnn')
-        offer = Order.objects.get(id=request.POST.get('pk'), buyer=request.user)
-        offer.delete()
-        print(offer)
-        return redirect('/')
+        if request.is_ajax():
+            my_order = Order.objects.get(id=request.POST.get('pk'), buyer=request.user)
+            # my_order.delete()
+            my_order.date_validity = datetime.now()
+            print(datetime.now(timezone.utc))
+            my_order.save()
+            return redirect("/")
 
 
 class ListOfferView(CalculateProfile, LoginRequiredMixin, DetailView):

@@ -44,14 +44,9 @@
 							</div>
 
 
-{#                            <form id="delete_form" action="/delete/" method="post">#}
-{#                                {% csrf_token %}#}
-{#                                <input type="hidden" name="date_validity" value="{{ advert.date_validity }}">#}
-{#                                <input type="submit" value="OOOOOOOO">#}
-{#                                <button class="otkl-zapros" name="delete" type="submit" value="{{ advert.date_validity }}">Отклонить запрос</button>#}
-{#                            </form>#}
-                            <button class="otkl-zapros" name="delete" type="button" onclick="delete_request('{{ advert.id }}')">Отклонить запрос</button>
-{#							    <a href="" class="delete-all">Отменить запрос</a>#}
+
+{#                            <button class="otkl-zapros" name="delete" type="button" onclick="delete_request('{{ advert.id }}')">Отклонить запрос</button>#}
+							    <a href="#" class="delete-all" onclick="delete_request('{{ advert.id }}')">Отменить запрос</a>
 						</div>
 					</div>
 				{% endfor %}

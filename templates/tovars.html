@@ -2,6 +2,7 @@
 {% load static %}
 {% load padegi_tags %}
 {% load category_tags %}
+{% load response_user %}
 
 
 {% block left %}
@@ -90,10 +91,10 @@ function gotozapros(){
 							</div>	
 						</div>
 						</a>
-
-                       {% if not advert.offers.all and advert.buyer != user %}
-                            <a href="{{ advert.get_absolute_url }}" class="link-zap">Сделать предложение</a>
-                       {% endif %}
+                        {% response_user as response_user %}
+                           {% if advert.buyer != user and not advert.name in response_user %}
+                                <a href="{{ advert.get_absolute_url }}" class="link-zap">Сделать предложение</a>
+                           {% endif %}
 
 					</div>
 					{% endfor %}

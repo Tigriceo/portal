@@ -1,6 +1,7 @@
 {% extends 'home.html' %}
 {% load static %}
 {% load padegi_tags %}
+{% load response_user %}
 
 {% block left %}
 {% endblock left %}
@@ -45,7 +46,8 @@
 		</div>
 
         <div class="addpredl-r">
-        {% if order.buyer != user and not order.offers.all %}
+        {% response_user as response_user %}
+           {% if order.buyer != user and not order.name in response_user %}
             <h1>Сделать предложение</h1>
             <form action="{% url 'order' order.id %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
