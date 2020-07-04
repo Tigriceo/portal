@@ -24,6 +24,7 @@ class CategoryDetailView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('city')
+        print(query)
         if query == '0' or query == "Все города":
             order_list = Order.objects.filter(category__slug=self.kwargs.get('slug'), date_validity__gte=datetime.now(timezone.utc))
         else:
