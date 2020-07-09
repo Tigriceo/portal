@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView
+from mptt.fields import TreeForeignKey
 
 from chat.models import ChatMessage, RoomChat
 # from service.geoip.core import location_geoip
@@ -24,7 +25,6 @@ class CategoryDetailView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('city')
-        print(query)
         if query == '0' or query == "Все города":
             order_list = Order.objects.filter(category__slug=self.kwargs.get('slug'), date_validity__gte=datetime.now(timezone.utc))
         else:
