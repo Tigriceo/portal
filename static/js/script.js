@@ -1,4 +1,15 @@
 jQuery(document).ready(function () {
+	function scrollMenu() {
+		$(".menu-ul ul").css("top", function() {
+		  return $(this).parent().position().top;
+		});
+	  }
+	  
+	  $(".menu-ul").scroll(function() {
+		scrollMenu();
+	  });
+	  
+	  scrollMenu();
 	$(".cat-menu-link").click(function () {
 		$(this).toggleClass('menu-swipe');
 		$(".menu-bg").toggleClass('menu-open');
