@@ -691,13 +691,12 @@ ul.menu-ul {
 	list-style: none;
 	margin-top: 15px;
 	font-weight: 500;
-	/*max-height: calc(100% - 180px);*/
-    /*overflow-y: scroll;*/
+	max-height: calc(100% - 180px);
+    overflow-y: scroll;
 }
 
 ul.menu-ul li {
 	margin: 7px 0;
-	position: relative;
 	padding: 8px 20px 8px 34px;
 	transition: 0.3s linear;
 }
