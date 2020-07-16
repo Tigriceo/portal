@@ -20,4 +20,6 @@ urlpatterns = [
 
     path("delete/", views.CheckDateView.as_view(), name="delete"),
 
+    path("police/", views.PoliceView.as_view(), name="police"),
+
 ]

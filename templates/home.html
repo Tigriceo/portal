@@ -52,7 +52,7 @@
 				{% if user.is_authenticated %}
 						<div class="profile-block-l">
 							<a href="{% url 'profile' %}">{% if user.first_name %}{{ user.first_name }}{% else %}{{ user.profile.phone_number }}{% endif %}</a><br>
-							Баланс: {{ user.profile.balance }}&#8381;
+{#							Баланс: {{ user.profile.balance }}&#8381;#}
 						</div>
 					<a href="{% url 'profile' %}"><div class="profile-block-img" style="background-image: url({{ user.profile.avatar.url }});"></div></a>
 					<div>
@@ -144,7 +144,7 @@
 				<input type="button" onclick="getPass()" id="btn" value="Получить пароль">
 				<input type="password" name="password" placeholder="Пароль"  id="id_password" disabled>
 				<input required id="check1" type="checkbox" value="Yes">
-				<label for="check1">Согласие на <a href="#">обработку персональных данных</a></label>
+				<label for="check1"> <a href="{% url "police" %}">Согласие на обработку персональных данных</a></label>
 				<input type="submit" id="submit" value="Войти" class="but-login"><span id="timer"></span>
             </form>
 		</div>
@@ -182,8 +182,8 @@
 				</div>
 			</div>
 			<div class="foot-links">
-				<a href="#">Политика конфиденциальности</a>
-				<a href="#">Правила обработки персональных данных</a>
+{#				<a href="#">Политика конфиденциальности</a>#}
+				<a href="{% url "police" %}">Правила обработки персональных данных</a>
 				<a href="#">Связаться с администрацией</a>
 			</div>
 		</div>

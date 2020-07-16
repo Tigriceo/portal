@@ -41,7 +41,7 @@ $( "#regform" ).submit(function() {
     let phonecode = $("#id_username").intlTelInput("getSelectedCountryData").dialCode;
     let username = '+'+phonecode+$("#id_username").val();
     $("#id_username").val(username);
-    console.log($("#id_username").val());
+    // console.log($("#id_username").val());
     return true;
   });
 

@@ -46,8 +46,9 @@
 		</div>
 
         <div class="addpredl-r">
-        {% response_user as response_user %}
-           {% if order.buyer != user and not order.name in response_user %}
+        {% count_offer_user pk=order.pk as count_offer_user %}
+
+        {% if count_offer_user == "yes" %}
             <h1>Сделать предложение</h1>
             <form action="{% url 'order' order.id %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}

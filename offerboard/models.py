@@ -79,7 +79,7 @@ class Order(AbstractDeal):
     price_max = models.DecimalField("Максимальная цена", max_digits=8, decimal_places=2, default=0.00)
     date_validity = models.DateTimeField("Актуально до")
     category = TreeManyToManyField(Category, verbose_name="Категории", blank=True)
-    payment_method = models.CharField('Способ оплаты', max_length=50, choices=PAYMENT_METHOD_CHOICES, default='cash')
+    payment_method = models.CharField('Способ оплаты', max_length=50, choices=PAYMENT_METHOD_CHOICES, default='for_cash')
     buyer = models.ForeignKey(User, verbose_name="Покупатель", on_delete=models.CASCADE)
     city = models.CharField("Город", max_length=50, blank=True, null=True)
 
@@ -113,7 +113,7 @@ class Offer(AbstractDeal):
     order = models.ForeignKey(Order, default=None, on_delete=models.CASCADE, verbose_name='Заявка',
                               related_name='offers')
     seller = models.ForeignKey(User, default=None, on_delete=models.CASCADE, verbose_name='Продавец')
-    status = models.CharField('Статус предложения', max_length=50, choices=STATUS_CHOICES, default='cash')
+    status = models.CharField('Статус предложения', max_length=50, choices=STATUS_CHOICES, default='not_choose')
     # welcome = models.BooleanField(default=False)
 
     class Meta:

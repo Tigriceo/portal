@@ -91,10 +91,11 @@ function gotozapros(){
 							</div>	
 						</div>
 						</a>
-                        {% response_user as response_user %}
-                           {% if advert.buyer != user and not advert.name in response_user %}
+                        {% count_offer_user pk=advert.pk as count_offer_user %}
+
+                            {% if count_offer_user == "yes" %}
                                 <a href="{{ advert.get_absolute_url }}" class="link-zap">Сделать предложение</a>
-                           {% endif %}
+                            {% endif %}
 
 					</div>
 					{% endfor %}

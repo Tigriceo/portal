@@ -200,6 +200,10 @@ class MakeAnOfferView(DetailView):
     model = Order
     template_name = 'addpredl.html'
 
+    # def get(self, request, pk):
+    #     print(Offer.objects.filter(order=self.kwargs.get('pk'), seller=request.user).filter(status='reject').count())
+    #     return redirect('/')
+
     def post(self, request, pk):
         form = OfferForm(request.POST, request.FILES)
         if form.is_valid():
@@ -277,5 +281,12 @@ class InactiveView(CalculateProfile, LoginRequiredMixin, View):
             self.context['offer_list'] = self.get_query_or_date("get_offer")
 
         return render(request, 'actzapros.html', self.context)
+
+
+class PoliceView(View):
+    """обработки персональных данных пользователей"""
+
+    def get(self, request):
+        return render(request, 'police.html')
 
 
