@@ -15,6 +15,8 @@ from .models import Profile
 from .forms import ProfileUpdateForm, UserCreateForm
 from offerboard.views import CalculateProfile
 
+import logging
+logger = logging.getLogger('django')
 
 class RegistrationView(View):
     """Регистрация и авторизация"""
@@ -35,6 +37,8 @@ class RegistrationView(View):
         user.password = hashed_pin
         user.save()
         print(send_sms_ru(username, pin))
+
+        logger.info(f">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>{send_sms_ru(username, pin)}")
         return HttpResponse(status=201)
 
 

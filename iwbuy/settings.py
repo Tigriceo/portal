@@ -71,6 +71,9 @@ TEMPLATES = [
         },
     },
 ]
+ADMINS = (
+    ('Дмитрий', 'dimmoon@mail.ru'),
+)
 
 WSGI_APPLICATION = 'iwbuy.wsgi.application'
 
