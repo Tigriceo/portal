@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /admin
+Host: www.iwbuy.ru
+Sitemap: http://iwbuy.ru/sitemap.xml
