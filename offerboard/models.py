@@ -56,16 +56,16 @@ class AbstractDeal(AbstractField):
     class Meta:
         abstract = True
 
-    def save(self, *args, **kwargs):
-        # обрезаем фото
-        super().save()
-
-        image = Image.open(self.photo.path)
-
-        if image.height > 64 or image.width > 64:
-            resize = (500, 500)
-            image.thumbnail(resize)
-            image.save(self.photo.path)
+    # def save(self, *args, **kwargs):
+    #     # обрезаем фото
+    #     super().save()
+    #
+    #     image = Image.open(self.photo.path)
+    #
+    #     if image.height > 64 or image.width > 64:
+    #         resize = (500, 500)
+    #         image.thumbnail(resize)
+    #         image.save(self.photo.path)
 
 
 class Order(AbstractDeal):
