@@ -11,10 +11,10 @@
                         <div>
                         <a href="#" class="focusevent profile-photo inside-photo" style="background-image:url({{ user.profile.avatar.url }});">
                             <input type="file" onchange="readURL(this);" name="avatar" accept="image/*" style="display:none;">
-                            
+
                         </a>
                         <input class="def-but" type="submit" value="{% if not user.profile.avatar.url %} Добавить {% else %} Сохранить {% endif %}">
-                        <span class="formats">Допустимые форматы png, jpg, jpeg, gif</span>
+                        <span class="formats">Допустимые форматы png, jpg, jpeg, gif<br>Размер – не более 5 МБ.</span>
                         </div>
                         <div class="profile-info">
                             <div class="profile-info-row">
