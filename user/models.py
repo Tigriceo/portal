@@ -21,16 +21,16 @@ class Profile(models.Model):
         verbose_name = "Профиль"
         verbose_name_plural = "Профили"
 
-    def save(self, *args, **kwargs):
-        # обрезаем фото
-        super().save()
-
-        image = Image.open(self.avatar.path)
-
-        if image.height > 64 or image.width > 64:
-            resize = (500, 500)
-            image.thumbnail(resize)
-            image.save(self.avatar.path)
+    # def save(self, *args, **kwargs):
+    #     # обрезаем фото
+    #     super().save()
+    #
+    #     image = Image.open(self.avatar.path)
+    #
+    #     if image.height > 64 or image.width > 64:
+    #         resize = (500, 500)
+    #         image.thumbnail(resize)
+    #         image.save(self.avatar.path)
 
 
 @receiver(post_save, sender=User)
