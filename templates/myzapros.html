@@ -16,7 +16,7 @@
 							{% for offer in advert.offers.all %}
                                 {% if offer.status != 'reject' %}
                                     <div class="tovar-mypredl-label">
-                                        {{ a.status }}Ваша заявка интерсна продавцу <a href="{% url 'offer_list' advert.id %}">начать чат</a>
+                                        {{ a.status }}Ваша заявка интересна продавцу <a href="{% url 'offer_list' advert.id %}">начать чат</a>
                                     </div>
                                 {% endif %}
 							{% endfor %}
