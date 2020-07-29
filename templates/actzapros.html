@@ -5,73 +5,75 @@
 
 
 {% block content %}
-		<div class="content-r">
-			<h1><a href="javascript:;" class="cat-menu-link profile-corr"></a>Не активные запросы и предложения</h1>
-			<div class="not-active-block">
-				<div class="n-a-links">
-					<a href="{% url 'inactive' sort='order' %}">Запросы</a>
-					<a href="{% url 'inactive' sort='offer' %}">Предложения</a>
-					<a href="{% url 'inactive' sort='all' %}">Показать все</a>
+<div class="content-r">
+	<h1><a href="javascript:;" class="cat-menu-link profile-corr"></a>Не активные запросы и предложения</h1>
+	<div class="not-active-block">
+		<div class="n-a-links">
+			<a href="{% url 'inactive' sort='order' %}">Запросы</a>
+			<a href="{% url 'inactive' sort='offer' %}">Предложения</a>
+			<a href="{% url 'inactive' sort='all' %}">Показать все</a>
+		</div>
+		<div class="n-a-date">
+			<form action="" method="get">
+				<div class="date__ot">
+					<label for="date-ot">Диапазон дат с</label>
+					<input type="date" name="min_data" id="date-ot">
 				</div>
-				<div class="n-a-date">
-					<form action="" method="get">
-						<label for="date-ot">Диапазон дат с</label>
-						<input type="date" name="min_data" id="date-ot">
-						<label for="date-do">до</label>
-						<input type="date" name="max_data" id="date-do">
-						<input type="submit" value="Применить">
-					</form>
+				<div class="date__do">
+					<label for="date-do">до</label>
+					<input type="date" name="max_data" id="date-do">
 				</div>
-				<div class="n-a-search">
-					<form action="">
-						<input type="text" placeholder="Введите слово для поиска">
-						<input type="button" value="Поиск">
-					</form>
+				<div class="date__us">
+					<input type="submit" value="Применить">
 				</div>
-			</div>
-
-			<div class="tovars-flex">
-				{% for order in order_list %}
-					<div class="tovar-block tovar-n-a">
-						<div class="tovar-city">Москва</div>
-						<a href="" class="tovar-link"></a>
-						<div class="tovar-img" style="background-image: url({{ order.photo.url }});"></div>
-						<div class="tovar-info">
-							<h2>{{ order.name }}</h2>
-							{{ order.description }}
-						</div>
-						<div class="tovar-foot">
-							<div class="tovar-price">
-								желаемая стоимость<br>
-								<span>{{ order.price_min }} - {{ order.price_max }}руб</span>
-							</div>
-							<div class="tovar-offer">
-								откликов ({{ order.offers.count }}) <br>
-								<span class="tovar-actual">Неактуально</span>
-							</div>
-						</div>
-					</div>
-				{% endfor %}
-				{% for offer in offer_list %}
-					<div class="tovar-block tovar-n-a">
-						<div class="tovar-city">Москва</div>
-						<div class="tovar-img" style="background-image: url({{offer.photo.url}});"></div>
-						<div class="tovar-info">
-							<h2>{{ offer.name }}</h2>
-								{{ offer.description }}
-						</div>
-						<div class="tovar-foot">
-						<div class="my-predl-title">Предложения на:</div>
-						<a href="{% url 'order' offer.order.id %}" class="my-predl-link">{{ offer.order }}</a>
-						</div>
-					</div>
-				{% endfor %}
-			</div>
+			</form>
+		</div>
+		<div class="n-a-search">
+			<form action="">
+				<input type="text" placeholder="Введите слово для поиска">
+				<input type="button" value="Поиск">
+			</form>
 		</div>
 	</div>
+
+	<div class="tovars-flex">
+		{% for order in order_list %}
+		<div class="tovar-block tovar-n-a">
+			<div class="tovar-city">Москва</div>
+			<a href="" class="tovar-link"></a>
+			<div class="tovar-img" style="background-image: url({{ order.photo.url }});"></div>
+			<div class="tovar-info">
+				<h2>{{ order.name }}</h2>
+				{{ order.description }}
+			</div>
+			<div class="tovar-foot">
+				<div class="tovar-price">
+					желаемая стоимость<br>
+					<span>{{ order.price_min }} - {{ order.price_max }}руб</span>
+				</div>
+				<div class="tovar-offer">
+					откликов ({{ order.offers.count }}) <br>
+					<span class="tovar-actual">Неактуально</span>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		{% for offer in offer_list %}
+		<div class="tovar-block tovar-n-a">
+			<div class="tovar-city">Москва</div>
+			<div class="tovar-img" style="background-image: url({{offer.photo.url}});"></div>
+			<div class="tovar-info">
+				<h2>{{ offer.name }}</h2>
+				{{ offer.description }}
+			</div>
+			<div class="tovar-foot">
+				<div class="my-predl-title">Предложения на:</div>
+				<a href="{% url 'order' offer.order.id %}" class="my-predl-link">{{ offer.order }}</a>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+</div>
 </div>
 {% endblock content %}
-
-
-
-
