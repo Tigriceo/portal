@@ -44,7 +44,7 @@ body {
 	font-size: 16px;
 	position: relative;
 	font-weight: 400;
-	background: #fcfcfc
+	background: #fcfcfc;
 }
 
 a {
@@ -288,7 +288,7 @@ a.gotologin:hover img {
 .bg-home .const {
 	text-align: center;
 	position: relative;
-	min-height: 80vh;
+	min-height: 88vh;
 }
 
 a.nobgbut {
