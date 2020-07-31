@@ -84,8 +84,10 @@
                         <div class="chat-ava" style="background-image: url({{offer.seller.profile.avatar.url}});"></div>
                         <div class="chat-info">
                             <div class="chat-title">{{ offer.name }}</div>
-                            <div class="chat-price">Указанная стоимость<span>{{offer.price_min}}руб</span>
-                                <div>
+                            <div class="chat-price">
+                                <div class="chat-price-info">Указанная стоимость<span>{{offer.price_min}}руб</span>
+                                </div>
+                                <div class="yes_no">
                                     <form action="{% url 'offer_list' offer.id %}" method="post">
                                         {% csrf_token %}
                                         {{ form }}
@@ -113,9 +115,15 @@
                     </div>
                     <form action="" class="chat-form chat-corr1" style="display: none;">
                         <textarea v-model="message" name="" id="" placeholder="Введите текст"></textarea>
-                        <label for="chat-file"></label>
-                        <input type="file" name="" id="chat-file">
-                        <input type="button" value="Отправить" v-on:click="send()">
+                            <div class="chat_input">
+                                <div class="chat_input-file">
+                                    <label for="chat-file"></label>
+                                    <input type="file" name="" id="chat-file">
+                                </div>
+                                <div class="chat_input-btn">
+                                    <input type="button" value="Отправить" v-on:click="send()">
+                                </div>
+                            </div>
                     </form>
 {#                    <textarea id="chat-log-{{ offer.roomchat.id }}"></textarea><br>#}
 {#                    <input id="chat-message-input-{{ offer.roomchat.id }}" type="text" size="50"><br>#}
@@ -136,8 +144,10 @@
                 <div class="chat-ava" style="background-image: url({{offer.seller.profile.avatar.url}});"></div>
                 <div class="chat-info">
                     <div class="chat-title">{{ offer.name }}</div>
-                    <div class="chat-price">Указанная стоимость<span>{{offer.price_min}}руб</span>
-                        <div>
+                    <div class="chat-price">
+                        <div class="chat-price-info">Указанная стоимость<span>{{offer.price_min}}руб</span>
+                        </div>
+                        <div class="yes_no">
                             <form action="{% url 'offer_list' offer.id %}" method="post">
                                 {% csrf_token %}
                                 {{ form }}
@@ -171,9 +181,15 @@
             </div>
 {#            <form action="" class="chat-form chat-corr1" style="display: none;">#}
 {#                <textarea name="" id="" placeholder="Введите текст"></textarea>#}
-{#                <label for="chat-file"></label>#}
-{#                <input type="file" name="" id="chat-file">#}
-{#                <input type="button" value="Отправить">#}
+                <div class="chat_input">
+                 <div class="chat_input-file">
+{#                   <label for="chat-file"></label>#}
+{#                   <input type="file" name="" id="chat-file">#}
+                 </div>
+                 <div class="chat_input-btn">
+{#                   <input type="button" value="Отправить">#}
+                 </div>
+                </div>
 {#            </form>#}
 {#            <textarea id="chat-log"></textarea><br>#}
 {#            <input id="chat-message-input" type="text" size="50"><br>#}

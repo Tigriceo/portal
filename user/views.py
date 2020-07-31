@@ -10,7 +10,7 @@ from string import digits
 from random import choice
 from django.contrib.auth.hashers import make_password
 
-from service.smsru.core import send_sms_ru
+# from service.smsru.core import send_sms_ru
 from .models import Profile
 from .forms import ProfileUpdateForm, UserCreateForm
 from offerboard.views import CalculateProfile
@@ -36,9 +36,9 @@ class RegistrationView(View):
         print(pin)
         user.password = hashed_pin
         user.save()
-        print(send_sms_ru(username, pin))
+        # print(send_sms_ru(username, pin))
 
-        logger.info(f">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>{send_sms_ru(username, pin)}")
+        # logger.info(f">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>{send_sms_ru(username, pin)}")
         return HttpResponse(status=201)
 
 

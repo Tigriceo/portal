@@ -24,7 +24,8 @@
                             </div>
                             <div class="profile-info-row">
                                 <div>Имя:</div>
-                                    <div><input type="text" class="focusevent" placeholder="Имя" name="first_name" value="{{ user.first_name }}"></div>
+                                    <div class="col-2"><input type="text" class="focusevent" placeholder="Имя"
+                                            name="first_name" value="{{ user.first_name }}"></div>
                                     <div><input type="submit" value="{% if not user.first_name %} Добавить {% else %} Сохранить {% endif %}"></div>
                             </div>
 
@@ -36,7 +37,8 @@
 
                             <div class="profile-info-row">
                                 <div>Почта:</div>
-                                    <div><input type="text" class="focusevent" placeholder="email" name="email" value="{{ user.email }}"></div>
+                                    <div class="col-2"><input type="text" class="focusevent" placeholder="email"
+                                            name="email" value="{{ user.email }}"></div>
                                     <div><input type="submit" value="{% if not user.email %} Добавить {% else %} Сохранить {% endif %}"></div>
                             </div>
                             <a class="logout" href="{% url 'logout' %}">Покинуть профиль</a>

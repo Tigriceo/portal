@@ -43,7 +43,7 @@
 <header>
 	<div class="const">
 		<div class="logo-top"><a href="{% url 'home' %}"><img src="{% static 'img/iwtb-logo.png' %}" alt="Я хочу купить"></a></div>
-		<div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div>Ваш город<br><span>{% location_geoip %}</span>
+		<div class="geo-select"><img src="{% static 'img/geo.svg' %}" alt="Location"><div class="const__text">Ваш город<br><span>{% location_geoip %}</span>
 {#      <a href="javascript:;" onclick="$('#cityselect').arcticmodal()">изменить</a>#}
             </div>
         </div>
@@ -55,7 +55,7 @@
 {#							Баланс: {{ user.profile.balance }}&#8381;#}
 						</div>
 					<a href="{% url 'profile' %}"><div class="profile-block-img" style="background-image: url({{ user.profile.avatar.url }});"></div></a>
-					<div>
+					<div class="profile-block-2">
 						<a href="{% url 'logout' %}" class="profile-exit" title="Покинуть профиль"></a>
 						<a href="{% url 'profile' %}" class="profile-msg" title="Прочитать сообщения"><span>0</span></a>
 					</div>

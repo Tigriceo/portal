@@ -90,9 +90,15 @@
 					</div>
 					<form action="" class="chat-form">
 						<textarea v-model="message" name="" id="" placeholder="Введите текст"></textarea>
-						<label for="chat-file"></label>
-						<input type="file" name="" id="chat-file">
-						<input type="button" value="Отправить"  v-on:click="send()">
+                       <div class="chat_input">
+                        <div class="chat_input-file">
+                            <label for="chat-file"></label>
+						    <input type="file" name="" id="chat-file">
+                        </div>
+                        <div class="chat_input-btn">
+                            <input type="button" value="Отправить"  v-on:click="send()">
+                        </div>
+                       </div>
 					</form>
 				</div>
 {#                    <textarea id="chat-log" cols="100" rows="20"></textarea><br>#}
